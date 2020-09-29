@@ -1,40 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/09/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<p>##hello hexo</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>xuehaolin</title>
     <url>/2020/09/28/xuehaolin/</url>
     <content><![CDATA[<p>这是我的第一个用GitHub+hexo搭建的博客网站，我希望用这个博客可以记录我的日常学习生活，我沿途遇到的风景以及我看过的书，或者是我对某一件事的看法，我希望多年以后这里可以是我的一路走来的驻足地。</p>
 ]]></content>
   </entry>
   <entry>
-    <title>我有一个梦想</title>
-    <url>/2020/09/28/%E6%88%91%E6%9C%89%E4%B8%80%E4%B8%AA%E6%A2%A6%E6%83%B3/</url>
-    <content><![CDATA[<p> 我有一个梦想，希望我的未来澄澈光明，希望我的未来的日子里有你 亲爱的WR同学。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何自学scala语言</title>
     <url>/2020/09/28/%E5%A6%82%E4%BD%95%E8%87%AA%E5%AD%A6scala%E8%AF%AD%E8%A8%80/</url>
     <content><![CDATA[<p> scala语言我觉得是除了java以外最好用的语言</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>AOP原来这样做&#39;</title>
+    <url>/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/</url>
+    <content><![CDATA[<p>1-简介<br>审计日记就是记录用户的操作记录<br>基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析<br>2-实现<br>2-1 日志存储实体类<br>复制代码<br>@Data<br>@Builder<br>@ToString<br>public class AuditingLog {</p>
+<pre><code>private String userId;  // 用户id
+
+private String userNickname; //用户昵称
+
+private String operationInfo; //操作信息
+
+private String interfaceName; // 调用的接口方法名
+
+private String applicationName; // 调用的服务名
+
+private LocalDateTime createTime; //操作时间</code></pre>
+<p>}<br>复制代码</p>
+<p>2-2 自定义审计日志注解<br>@Documented<br>@Retention(RetentionPolicy.RUNTIME)<br>@Target({ElementType.TYPE, ElementType.METHOD})<br>public @interface AuditLog {<br>    String logInfo(); //日志信息<br>}<br>2-3 日志注解的AOP的切面<br>复制代码<br>@Aspect<br>@Component<br>public class AuditLogAOP {</p>
+<pre><code>   @Value(&quot;$&#123;spring.application.name&#125;&quot;)
+private String applicationName; //从配置文件获得服务名
+
+// spel表达式解析器
+private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
+
+// 参数名发现器
+private DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+
+@Before(value = &quot;@annotation(enableAuditLog) || @within(enableAuditLog)&quot;)
+public void getAutiLogInfo(JoinPoint joinPoint, AuditLog enableAuditLog)&#123;
+
+    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    if (enableAuditLog == null) &#123;
+        enableAuditLog = signature.getMethod().getAnnotation(AuditLog.class);
+    &#125;
+
+    // 构建日志存储对象
+    AuditingLog auditlog = AuditingLog.builder().applicationName(applicationName).createTime(LocalDateTime.now()).build();
+
+    auditlog.setUserId(xxx);  // 从上下文获取当前操作的用户信息
+    auditlog.setUserNickname(xx);
+
+// 设置操作的接口方法名        
+auditlog.setInterfaceName(signature.getDeclaringTypeName()+&quot;.&quot;+signature.getName());
+
+    // 获得日志注解上自定义的日志信息
+    String logInfo = enableAuditLog.logInfo();
+
+    // Spel表达式解析日志信息
+    // 获得方法参数名数组
+    String[] parameterNames = parameterNameDiscoverer.getParameterNames(signature.getMethod());
+    if (parameterNames != null &amp;&amp; parameterNames.length &gt; 0)&#123;
+        EvaluationContext context = new StandardEvaluationContext();
+
+        //获取方法参数值
+        Object[] args = joinPoint.getArgs();
+        for (int i = 0; i &lt; args.length; i++) &#123;
+            context.setVariable(parameterNames[i],args[i]); // 替换spel里的变量值为实际值， 比如 #user --&gt;  user对象
+        &#125;
+
+        // 解析出实际的日志信息
+        String opeationInfo = spelExpressionParser.parseExpression(logInfo).getValue(context).toString();
+        auditlog.setOperationInfo(opeationInfo);
+    &#125;
+
+    // 打印日志信息
+    log.info(auditlog.toString());
+
+    //TODO 这时可以将日志信息auditlog进行异步存储,比如写入到文件通过logstash增量的同步到Elasticsearch或者DB
+
+&#125;</code></pre>
+<p>}<br>复制代码<br>2-4 开启审计日志功能<br>在分布式项目中一般会将日志抽离出来公共调用, 所以为了方便的注入审计日志功能,可以编写对应 Enable注解<br>@Target(ElementType.TYPE)<br>@Retention(RetentionPolicy.RUNTIME)<br>@Import({AuditLogAOP.class}) // 注入AOP切面到容器<br>public @interface EnableAuditLog {</p>
+<p>}<br>3 使用<br>3-1 开启审计日志功能<br>在要使用审计日志功能的服务的入口类开启审计日志功能<br>比如</p>
+<p>复制代码<br>@SpringBootApplication<br>@EnableDiscoveryClient<br>@EnableAuditLog //开启审计日志<br>public class UmsAdminApplication {<br>    public static void main(String[] args) {<br>        SpringApplication.run(UmsAdminApplication.class,args);<br>    }<br>}<br>复制代码<br>3-2 在接口上使用<br>比如:</p>
+<pre><code>@AuditLog(logInfo = &quot;&#39;新增管理员:&#39;+ #user.username&quot;)
+@PostMapping
+public String addUser(@RequestBody User user)&#123;
+
+    return null;
+&#125;</code></pre>
+<p>转载：<a href="https://blog.csdn.net/weixin_41347419/article/details/107573038">https://blog.csdn.net/weixin_41347419/article/details/107573038</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>四六级同义词替换（加分项）</title>
+    <url>/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/</url>
+    <content><![CDATA[<p>1、healthy可以指代人身体健康的意思，wholesome的话更偏向于物品有益于健康这种，如果是修饰人的话更接近于健全的意思，有一点区别！<br>2、惊人的同义词里我再加一个striking吧（简单好记就是不那么高级）<br>3、improve的同义词（说近义词更好一点）如果表示有益于的话，可以用avail<br>4、solve更接近于解决的意思，而同义词里的cope with和deal with更接近于处理（不一定解决），这个也有一点点区别！<br>5、鼓舞的通过一次还可以是inspire<br>6、think的话可以替换成maintain，短语的话也可以是be convinced that<br>7、influence名词可换成effect，动词可以是affect<br>8、capacity这个词注意，他只表示能力这个词本身，比如你可以说he can go now或者he is able to go now，但是你不能说he have capacityto go now，更不能用capability，意思不一样！<br>9、职业的同义词我还能想到vocation，但是这个跟career一样，和另外三个是有一点区别der<br>10、children的话，也可以说inferior，表示晚辈，同时也有次品的意思，按需取用8<br>11、最后面的a vast number of只能修饰可数词，a vast amount of只可修饰不可数词<br>（诶？！怎么比上次打的少两条！实在想不起来廖随便补充一点8）<br>12、前面提到inferior是晚辈，所以还有peer表示平辈，以及seniority表示长辈<br>13、只修饰可数的还有quite a few，只修饰不可数的还有a great deal of，quite a little，既可修饰可数也可修饰不可数的有plenty of，a large quantity of以及a good supply of<br>13、困难障碍的话，不要再用difficulty或者trouble了！可以试试hardship，obstacle，hindrance等等<br>14、enough可以替换为sufficient，adequate，ample等等（仅表示足够的这个意思时！）<br>15、缺点：disadvantage（这个应该是最普通的？），fault（这个阔能是第二普通的？），drawback，shortcoming，defect<br>16、限制：limit→restrict，restrain，confine<br>17、各种说（say，speak，talk）：轻声说：whisper，murmur，阐明：explain，illustrate，account for ，宣布：declare，announce，claim，大喊：shout，cry out，yell，exclaim，演讲deliver a lecture<br>18、真诚：sincere，cordial，hearty，genuine，faithful<br>19、重要：important→significant，vital，crucial，considerable，essential（这个是基本的，必要的），indispensable（不可或缺的）<br>20、著名的：famous→noted，notable，famed，distinguished，reputable（声誉好的，受尊敬的）<br>21、支持：support→sustain，second，back<br>22、相似的：similar→alike，semblable，analogical（同理相似的动词resemble，相似或者说类比的名词analogy）<br>23、推测：guess→gather，speculate，conjecture<br>这些都是比较常见的词8，虽然替换词能加分，但 一 定 一 定 一 定 要事先挑好一两个你要用来替换的词，只背这一两个，然后弄清楚他的意思，绝对不能用错！不然扣分很严重！（虽然没有考过六级但以前其他考试都是这样的！）<br>祝我们四六级都考好！<br>24、大概这个词，probably、possibly、maybe→presumably、approximately<br>25、商品：things→（日用daily→routine）merchandise、commodity、ware<br>26、恭维、称赞：praise→compliment<br>27、致意：treat→hail、greet（salute表示行军礼）<br>28、深刻的：deep→profound<br>29、（研究、调查等）显示、反应、表明：show→reveal、reflect、mirror、dedicate（指出）<br>30、之前的缺点还有deficiency、flaw、scarcity<br>31、誓言：swear→vow、pledge、oath<br>32、请求：request、ask、beg→plea（n.）petition（n.&amp;vt.）<br>33、反对：disagree→oppose、object to、protest<br>34、极大的：big、large、vast→supreme、tremendous、overwhelming、massive、drastical、substantial、enormous（这里一定要弄清意思再用！）<br>35、各种优秀的杰出的精彩的等等：brilliant、magnificent、remarkable、superb、splendid、distinguished、wonderful、breathtaking、stunning、fantastic、unexceptionable、marvelous、extraordinary、outstanding、eminent<br>36、5G：the 5th generation wireless systems；垃圾分类：garbage classification；传统文化：traditional culture；文化自信：culture confidence<br>okk啦！我比较喜欢36这个数字，就到此为止8~<br>还是那句话，一定要先查清意思再去使用哦~<br>大家一起冲冲冲！四六级加油！</p>
 ]]></content>
   </entry>
 </search>
