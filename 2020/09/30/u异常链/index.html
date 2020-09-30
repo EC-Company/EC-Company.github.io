@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
+  <meta name="description" content="异常链应用程序通常会通过抛出另一个异常来响应异常。 实际上，第一个异常引起第二个异常。 它可以是非常有助于用户知道什么时候一个异常导致另一个异常。 “异常链（Chained Exceptions）”帮助程序员做到这一点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AOP原来这样做">
-<meta property="og:url" content="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/index.html">
+<meta property="og:title" content="异常链">
+<meta property="og:url" content="https://ec-company.github.io/2020/09/30/u%E5%BC%82%E5%B8%B8%E9%93%BE/index.html">
 <meta property="og:site_name" content="薛浩琳的blog">
-<meta property="og:description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
+<meta property="og:description" content="异常链应用程序通常会通过抛出另一个异常来响应异常。 实际上，第一个异常引起第二个异常。 它可以是非常有助于用户知道什么时候一个异常导致另一个异常。 “异常链（Chained Exceptions）”帮助程序员做到这一点。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-09-29T14:47:20.000Z">
-<meta property="article:modified_time" content="2020-09-30T05:39:47.988Z">
+<meta property="article:published_time" content="2020-09-30T06:02:37.000Z">
+<meta property="article:modified_time" content="2020-09-30T06:06:24.224Z">
 <meta property="article:author" content="薛浩琳">
 <meta property="article:tag" content="记录生活">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
+<link rel="canonical" href="https://ec-company.github.io/2020/09/30/u%E5%BC%82%E5%B8%B8%E9%93%BE/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>AOP原来这样做 | 薛浩琳的blog</title>
+  <title>异常链 | 薛浩琳的blog</title>
   
 
 
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
+    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/30/u%E5%BC%82%E5%B8%B8%E9%93%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -208,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AOP原来这样做
+          异常链
         </h1>
 
         <div class="post-meta">
@@ -217,16 +217,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-09-29 22:47:20" itemprop="dateCreated datePublished" datetime="2020-09-29T22:47:20+08:00">2020-09-29</time>
+              <time title="创建时间：2020-09-30 14:02:37 / 修改时间：14:06:24" itemprop="dateCreated datePublished" datetime="2020-09-30T14:02:37+08:00">2020-09-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-30 13:39:47" itemprop="dateModified" datetime="2020-09-30T13:39:47+08:00">2020-09-30</time>
-              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -246,84 +240,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>1-简介<br>审计日记就是记录用户的操作记录<br>基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析<br>2-实现<br>2-1 日志存储实体类</p>
-<a id="more"></a>
-<p>复制代码<br>@Data<br>@Builder<br>@ToString<br>public class AuditingLog {</p>
-<pre><code>private String userId;  // 用户id
+        <h1 id="异常链"><a href="#异常链" class="headerlink" title="异常链"></a>异常链</h1><p>应用程序通常会通过抛出另一个异常来响应异常。 实际上，第一个异常引起第二个异常。 它可以是非常有助于用户知道什么时候一个异常导致另一个异常。 “异常链（Chained Exceptions）”帮助程序员做到这一点。<a id="more"></a></p>
+<p>以下是Throwable中支持异常链的方法和构造函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Throwable <span class="title">getCause</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Throwable <span class="title">initCause</span><span class="params">(Throwable)</span></span></span><br><span class="line"><span class="function"><span class="title">Throwable</span><span class="params">(String, Throwable)</span></span></span><br><span class="line"><span class="function"><span class="title">Throwable</span><span class="params">(Throwable)</span></span></span><br></pre></td></tr></table></figure>
 
-private String userNickname; //用户昵称
 
-private String operationInfo; //操作信息
 
-private String interfaceName; // 调用的接口方法名
+<p>initCause和Throwable构造函数的Throwable参数是导致当前异常的异常。 getCause返回导致当前异常的异常，initCause设置当前异常的原因。</p>
+<p>以下示例显示如何使用异常链。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SampleException(<span class="string">&quot;Other IOException&quot;</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-private String applicationName; // 调用的服务名
 
-private LocalDateTime createTime; //操作时间</code></pre>
-<p>}<br>复制代码</p>
-<p>2-2 自定义审计日志注解<br>@Documented<br>@Retention(RetentionPolicy.RUNTIME)<br>@Target({ElementType.TYPE, ElementType.METHOD})<br>public @interface AuditLog {<br>    String logInfo(); //日志信息<br>}<br>2-3 日志注解的AOP的切面<br>复制代码<br>@Aspect<br>@Component<br>public class AuditLogAOP {</p>
-<pre><code>   @Value(&quot;$&#123;spring.application.name&#125;&quot;)
-private String applicationName; //从配置文件获得服务名
+<p>在此示例中，当捕获到IOException时，将创建一个新的SampleException异常，并附加原始的异常原因，并将异常链抛出到下一个更高级别的异常处理程序。</p>
+<h2 id="访问堆栈跟踪信息"><a href="#访问堆栈跟踪信息" class="headerlink" title="访问堆栈跟踪信息"></a>访问堆栈跟踪信息</h2><p>现在让我们假设更高级别的异常处理程序想要以自己的格式转储堆栈跟踪。</p>
+<p>定义：堆栈跟踪（stack trace）提供有关当前线程的执行历史的信息，并列出在异常发生时调用的类和方法的名称。 堆栈跟踪是一个有用的调试工具，通常在抛出异常时会利用它。</p>
+<p>以下代码显示了如何在异常对象上调用getStackTrace方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">catch</span> (Exception cause) &#123;</span><br><span class="line">    StackTraceElement elements[] = cause.getStackTrace();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, n = elements.length; i &lt; n; i++) &#123;       </span><br><span class="line">        System.err.println(elements[i].getFileName()</span><br><span class="line">            + <span class="string">&quot;:&quot;</span> + elements[i].getLineNumber() </span><br><span class="line">            + <span class="string">&quot;&gt;&gt; &quot;</span></span><br><span class="line">            + elements[i].getMethodName() + <span class="string">&quot;()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// spel表达式解析器
-private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
+<h2 id="日志-API"><a href="#日志-API" class="headerlink" title="日志 API"></a>日志 API</h2><p>如果要记录catch块中所发生异常，最好不要手动解析堆栈跟踪并将输出发送到 System.err()，而是使用<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html">java.util.logging</a>包中的日志记录工具将输出发送到文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Handler handler = <span class="keyword">new</span> FileHandler(<span class="string">&quot;OutFile.log&quot;</span>);</span><br><span class="line">    Logger.getLogger(<span class="string">&quot;&quot;</span>).addHandler(handler);</span><br><span class="line">    </span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    Logger logger = Logger.getLogger(<span class="string">&quot;package.name&quot;</span>); </span><br><span class="line">    StackTraceElement elements[] = e.getStackTrace();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, n = elements.length; i &lt; n; i++) &#123;</span><br><span class="line">        logger.log(Level.WARNING, elements[i].getMethodName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 参数名发现器
-private DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
-@Before(value = &quot;@annotation(enableAuditLog) || @within(enableAuditLog)&quot;)
-public void getAutiLogInfo(JoinPoint joinPoint, AuditLog enableAuditLog)&#123;
 
-    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-    if (enableAuditLog == null) &#123;
-        enableAuditLog = signature.getMethod().getAnnotation(AuditLog.class);
-    &#125;
-
-    // 构建日志存储对象
-    AuditingLog auditlog = AuditingLog.builder().applicationName(applicationName).createTime(LocalDateTime.now()).build();
-
-    auditlog.setUserId(xxx);  // 从上下文获取当前操作的用户信息
-    auditlog.setUserNickname(xx);
-
-// 设置操作的接口方法名        
-auditlog.setInterfaceName(signature.getDeclaringTypeName()+&quot;.&quot;+signature.getName());
-
-    // 获得日志注解上自定义的日志信息
-    String logInfo = enableAuditLog.logInfo();
-
-    // Spel表达式解析日志信息
-    // 获得方法参数名数组
-    String[] parameterNames = parameterNameDiscoverer.getParameterNames(signature.getMethod());
-    if (parameterNames != null &amp;&amp; parameterNames.length &gt; 0)&#123;
-        EvaluationContext context = new StandardEvaluationContext();
-
-        //获取方法参数值
-        Object[] args = joinPoint.getArgs();
-        for (int i = 0; i &lt; args.length; i++) &#123;
-            context.setVariable(parameterNames[i],args[i]); // 替换spel里的变量值为实际值， 比如 #user --&gt;  user对象
-        &#125;
-
-        // 解析出实际的日志信息
-        String opeationInfo = spelExpressionParser.parseExpression(logInfo).getValue(context).toString();
-        auditlog.setOperationInfo(opeationInfo);
-    &#125;
-
-    // 打印日志信息
-    log.info(auditlog.toString());
-
-    //TODO 这时可以将日志信息auditlog进行异步存储,比如写入到文件通过logstash增量的同步到Elasticsearch或者DB
-
-&#125;</code></pre>
-<p>}<br>复制代码<br>2-4 开启审计日志功能<br>在分布式项目中一般会将日志抽离出来公共调用, 所以为了方便的注入审计日志功能,可以编写对应 Enable注解<br>@Target(ElementType.TYPE)<br>@Retention(RetentionPolicy.RUNTIME)<br>@Import({AuditLogAOP.class}) // 注入AOP切面到容器<br>public @interface EnableAuditLog {</p>
-<p>}<br>3 使用<br>3-1 开启审计日志功能<br>在要使用审计日志功能的服务的入口类开启审计日志功能<br>比如</p>
-<p>复制代码<br>@SpringBootApplication<br>@EnableDiscoveryClient<br>@EnableAuditLog //开启审计日志<br>public class UmsAdminApplication {<br>    public static void main(String[] args) {<br>        SpringApplication.run(UmsAdminApplication.class,args);<br>    }<br>}<br>复制代码<br>3-2 在接口上使用<br>比如:</p>
-<pre><code>@AuditLog(logInfo = &quot;&#39;新增管理员:&#39;+ #user.username&quot;)
-@PostMapping
-public String addUser(@RequestBody User user)&#123;
-
-    return null;
-&#125;</code></pre>
-<p>转载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41347419/article/details/107573038">https://blog.csdn.net/weixin_41347419/article/details/107573038</a></p>
 
     </div>
 
@@ -354,12 +292,12 @@ public String addUser(@RequestBody User user)&#123;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/09/28/xuehaolin/" rel="prev" title="xuehaolin">
-      <i class="fa fa-chevron-left"></i> xuehaolin
+    <a href="/2020/09/30/%E5%A6%82%E4%BD%95%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8/" rel="prev" title="如何抛出异常">
+      <i class="fa fa-chevron-left"></i> 如何抛出异常
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/" rel="next" title="四六级同义词替换（加分项）">
-      四六级同义词替换（加分项） <i class="fa fa-chevron-right"></i>
+    <a href="/2020/09/30/%E5%88%9B%E5%BB%BA%E5%BC%82%E5%B8%B8%E7%B1%BB/" rel="next" title="创建异常类">
+      创建异常类 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -419,6 +357,7 @@ public String addUser(@RequestBody User user)&#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E9%93%BE"><span class="nav-number">1.</span> <span class="nav-text">异常链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%A0%86%E6%A0%88%E8%B7%9F%E8%B8%AA%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.</span> <span class="nav-text">访问堆栈跟踪信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97-API"><span class="nav-number">1.2.</span> <span class="nav-text">日志 API</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

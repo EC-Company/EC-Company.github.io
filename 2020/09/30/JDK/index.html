@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="快速开始本章介绍了如何下载、安装、配置和调试 JDK。 下载、安装 JDKJDK(Java Development Kit)是用于 Java 开发的工具箱。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何下载、安装、配置和调试 JDK">
+<meta property="og:url" content="https://ec-company.github.io/2020/09/30/JDK/index.html">
+<meta property="og:site_name" content="薛浩琳的blog">
+<meta property="og:description" content="快速开始本章介绍了如何下载、安装、配置和调试 JDK。 下载、安装 JDKJDK(Java Development Kit)是用于 Java 开发的工具箱。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-30T05:41:03.000Z">
+<meta property="article:modified_time" content="2020-09-30T05:43:14.379Z">
+<meta property="article:author" content="薛浩琳">
+<meta property="article:tag" content="记录生活">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ec-company.github.io/2020/09/30/JDK/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何下载、安装、配置和调试 JDK | 薛浩琳的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">薛浩琳的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learning can be life-changing</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/30/JDK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="薛浩琳">
+      <meta itemprop="description" content="世上无难事，只怕有心人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛浩琳的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何下载、安装、配置和调试 JDK
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-30 13:41:03 / 修改时间：13:43:14" itemprop="dateCreated datePublished" datetime="2020-09-30T13:41:03+08:00">2020-09-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><p>本章介绍了如何下载、安装、配置和调试 JDK。</p>
+<h2 id="下载、安装-JDK"><a href="#下载、安装-JDK" class="headerlink" title="下载、安装 JDK"></a>下载、安装 JDK</h2><p>JDK(Java Development Kit)是用于 Java 开发的工具箱。</p>
+<a id="more"></a>
+
+<p>在<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>下载</p>
+<p>JDK 支持如下操作系统的安装：</p>
+<table>
+<thead>
+<tr>
+<th>操作系统类型</th>
+<th>文件大小</th>
+<th>文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linux x86</td>
+<td>154.67 MB</td>
+<td>jdk-8u66-linux-i586.rpm</td>
+</tr>
+<tr>
+<td>Linux x86</td>
+<td>174.83 MB</td>
+<td>jdk-8u66-linux-i586.tar.gz</td>
+</tr>
+<tr>
+<td>Linux x64</td>
+<td>152.69 MB</td>
+<td>jdk-8u66-linux-x64.rpm</td>
+</tr>
+<tr>
+<td>Linux x64</td>
+<td>172.89 MB</td>
+<td>jdk-8u66-linux-x64.tar.gz</td>
+</tr>
+<tr>
+<td>Mac OS X x64</td>
+<td>227.12 MB</td>
+<td>jdk-8u66-macosx-x64.dmg</td>
+</tr>
+<tr>
+<td>Solaris SPARC 64-bit (SVR4 package)</td>
+<td>139.65 MB</td>
+<td>jdk-8u66-solaris-sparcv9.tar.Z</td>
+</tr>
+<tr>
+<td>Solaris SPARC 64-bit</td>
+<td>99.05 MB</td>
+<td>jdk-8u66-solaris-sparcv9.tar.gz</td>
+</tr>
+<tr>
+<td>Solaris x64 (SVR4 package)</td>
+<td>140 MB</td>
+<td>jdk-8u66-solaris-x64.tar.Z</td>
+</tr>
+<tr>
+<td>Solaris x64</td>
+<td>96.2 MB</td>
+<td>jdk-8u66-solaris-x64.tar.gz</td>
+</tr>
+<tr>
+<td>Windows x86</td>
+<td>181.33 MB</td>
+<td>jdk-8u66-windows-i586.exe</td>
+</tr>
+<tr>
+<td>Windows x64</td>
+<td>186.65 MB</td>
+<td>jdk-8u66-windows-x64.exe</td>
+</tr>
+</tbody></table>
+<p>安装路径默认安装在 <code>C:\Program Files\Java\jdk1.8.0_66</code> 或者 <code>usr/local/java/jdk1.8.0_66</code></p>
+<p><strong>注：</strong>本书中所使用JDK版本为：Java Platform (JDK) 8u66。<br>本书所使用的操作系统为：Win7 Sp1 x64。本书的示例是在 Eclipse  Mars.1 Release (4.5.1) 工具下编写。</p>
+<h3 id="基于-RPM-的-Linux"><a href="#基于-RPM-的-Linux" class="headerlink" title="基于 RPM 的 Linux"></a>基于 RPM 的 Linux</h3><p>（1）下载安装文件</p>
+<p>文件名类似于<code>jdk-8uversion-linux-x64.rpm</code>。</p>
+<p>（2）切换到 root 用户身份</p>
+<p>（3）检查当前的安装情况。卸载老版本的 JDK</p>
+<p>检查当前的安装情况，比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -qa | grep  jdk</span></span><br><span class="line">jdk1.8.0_102-1.8.0_102-fcs.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>若有老版本 JDK，则需先卸载老版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -e package_name</span></span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -e jdk1.8.0_102-1.8.0_102-fcs.x86_64</span></span><br></pre></td></tr></table></figure>
+
+<p>（4）安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -ivh jdk-8uversion-linux-x64.rpm</span></span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -ivh jdk-8u102-linux-x64.rpm</span></span><br><span class="line">Preparing...                ########################################### [100%]</span><br><span class="line">   1:jdk1.8.0_102           ########################################### [100%]</span><br><span class="line">Unpacking JAR files...</span><br><span class="line">	tools.jar...</span><br><span class="line">	plugin.jar...</span><br><span class="line">	javaws.jar...</span><br><span class="line">	deploy.jar...</span><br><span class="line">	rt.jar...</span><br><span class="line">	jsse.jar...</span><br><span class="line">	charsets.jar...</span><br><span class="line">	localedata.jar...</span><br></pre></td></tr></table></figure>
+
+<p>（5）升级</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rpm -Uvh jdk-8uversion-linux-x64.rpm</span></span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，可以删除<code>.rpm</code>文件，以节省空间。 安装完后，无需重启主机，即可使用 JDK。</p>
+<h2 id="设置执行路径"><a href="#设置执行路径" class="headerlink" title="设置执行路径"></a>设置执行路径</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>增加一个 <code>JAVA_HOME</code> 环境变量，值是 JDK 的安装目录。如 <code>C:\Program Files\Java\jdk1.8.0_66</code> ，注意后边不带分号</p>
+<p>在 <code>PATH</code> 的环境变量里面增加 <code>%JAVA_HOME%\bin;</code> </p>
+<p>在 <code>CLASSPATH</code>增加<code>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;</code>（前面有点号和分号，后边结尾也有分号。<br>或者可以写成<code>.;%JAVA_HOME%\lib</code>如图所示，一样的效果。</p>
+<h3 id="UNIX"><a href="#UNIX" class="headerlink" title="UNIX"></a>UNIX</h3><p>包括 Linux、Mac OS X 和 Solaris 环境下，在<code>~/.profile</code>、<code>~/.bashrc</code>或 <code>~/.bash_profile</code> 文件末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_66</span><br><span class="line">export PATH&#x3D;$JAVA_HOME&#x2F;bin:$PATH</span><br><span class="line">export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>JAVA_HOME 是 JDK 安装目录</li>
+<li>Linux 下用冒号“:”来分隔路径</li>
+<li>$PATH 、$CLASSPATH、 $JAVA_HOME 是用来引用原来的环境变量的值</li>
+<li>export 是把这三个变量导出为全局变量</li>
+</ul>
+<p>比如，在 CentOS 下，需编辑<code>/etc/profile</code>文件。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>测试安装是否正确，可以在 shell 窗口，键入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> java -version</span></span><br></pre></td></tr></table></figure>
+
+<p>若能看到如下信息，则说明 JDK 安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;1.8.0_66&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_66-b17)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<p>最好再执行下<code>javac</code>，以测试环境变量是否设置正确：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> javac</span></span><br><span class="line">用法: javac &lt;options&gt; &lt;source files&gt;</span><br><span class="line">其中, 可能的选项包括:</span><br><span class="line">  -g                         生成所有调试信息</span><br><span class="line">  -g:none                    不生成任何调试信息</span><br><span class="line">  -g:&#123;lines,vars,source&#125;     只生成某些调试信息</span><br><span class="line">  -nowarn                    不生成任何警告</span><br><span class="line">  -verbose                   输出有关编译器正在执行的操作的消息</span><br><span class="line">  -deprecation               输出使用已过时的 API 的源位置</span><br><span class="line">  -classpath &lt;路径&gt;            指定查找用户类文件和注释处理程序的位置</span><br><span class="line">  -cp &lt;路径&gt;                   指定查找用户类文件和注释处理程序的位置</span><br><span class="line">  -sourcepath &lt;路径&gt;           指定查找输入源文件的位置</span><br><span class="line">  -bootclasspath &lt;路径&gt;        覆盖引导类文件的位置</span><br><span class="line">  -extdirs &lt;目录&gt;              覆盖所安装扩展的位置</span><br><span class="line">  -endorseddirs &lt;目录&gt;         覆盖签名的标准路径的位置</span><br><span class="line">  -proc:&#123;none,only&#125;          控制是否执行注释处理和/或编译。</span><br><span class="line">  -processor &lt;class1&gt;[,&lt;class2&gt;,&lt;class3&gt;...] 要运行的注释处理程序的名称; 绕过默认的搜索进程</span><br><span class="line">  -processorpath &lt;路径&gt;        指定查找注释处理程序的位置</span><br><span class="line">  -parameters                生成元数据以用于方法参数的反射</span><br><span class="line">  -d &lt;目录&gt;                    指定放置生成的类文件的位置</span><br><span class="line">  -s &lt;目录&gt;                    指定放置生成的源文件的位置</span><br><span class="line">  -h &lt;目录&gt;                    指定放置生成的本机标头文件的位置</span><br><span class="line">  -implicit:&#123;none,class&#125;     指定是否为隐式引用文件生成类文件</span><br><span class="line">  -encoding &lt;编码&gt;             指定源文件使用的字符编码</span><br><span class="line">  -source &lt;发行版&gt;              提供与指定发行版的源兼容性</span><br><span class="line">  -target &lt;发行版&gt;              生成特定 VM 版本的类文件</span><br><span class="line">  -profile &lt;配置文件&gt;            请确保使用的 API 在指定的配置文件中可用</span><br><span class="line">  -version                   版本信息</span><br><span class="line">  -help                      输出标准选项的提要</span><br><span class="line">  -A关键字[=值]                  传递给注释处理程序的选项</span><br><span class="line">  -X                         输出非标准选项的提要</span><br><span class="line">  -J&lt;标记&gt;                     直接将 &lt;标记&gt; 传递给运行时系统</span><br><span class="line">  -Werror                    出现警告时终止编译</span><br><span class="line">  @&lt;文件名&gt;                     从文件读取选项和文件名</span><br></pre></td></tr></table></figure>
+
+<p>有读者反映有时候<code>java -version</code>能够执行成功，但<code>javac</code>命令不成功的情况，一般是环境变量配置问题，请参阅上面“设置执行路径”章节内容，再仔细检测环境变量的配置。</p>
+<p>更多安装细节，可以参考 <a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html">http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html</a>，以及<a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/tutorial/essential/environment/paths.html">http://docs.oracle.com/javase/tutorial/essential/environment/paths.html</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>只想买包辣条</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="薛浩琳 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/30/%E7%AC%AC%E4%B8%80%E4%B8%AAmaven%E9%A1%B9%E7%9B%AE/" rel="prev" title="第一个maven项目">
+      <i class="fa fa-chevron-left"></i> 第一个maven项目
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/30/%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/" rel="next" title="类和对象">
+      类和对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">快速开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E3%80%81%E5%AE%89%E8%A3%85-JDK"><span class="nav-number">1.1.</span> <span class="nav-text">下载、安装 JDK</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-RPM-%E7%9A%84-Linux"><span class="nav-number">1.1.1.</span> <span class="nav-text">基于 RPM 的 Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%89%A7%E8%A1%8C%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.</span> <span class="nav-text">设置执行路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows"><span class="nav-number">1.2.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UNIX"><span class="nav-number">1.2.2.</span> <span class="nav-text">UNIX</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">1.3.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="薛浩琳"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">薛浩琳</p>
+  <div class="site-description" itemprop="description">世上无难事，只怕有心人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/EC-Company" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;EC-Company" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5417449202/home?wvr=5&sudaref=graph.qq.com" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5417449202&#x2F;home?wvr&#x3D;5&amp;sudaref&#x3D;graph.qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">薛浩琳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="注解（Annotations）注解为程序提供元数据（metadata）.元数据又称中介数据、中继数据，为描述数据的数据（data about data），主要是描述数据属性（property）的信息。它不会影响程序的编译方式，也不会影响最终的编译结果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="注解">
+<meta property="og:url" content="https://ec-company.github.io/2020/09/30/%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="薛浩琳的blog">
+<meta property="og:description" content="注解（Annotations）注解为程序提供元数据（metadata）.元数据又称中介数据、中继数据，为描述数据的数据（data about data），主要是描述数据属性（property）的信息。它不会影响程序的编译方式，也不会影响最终的编译结果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-30T05:45:59.000Z">
+<meta property="article:modified_time" content="2020-09-30T05:49:13.515Z">
+<meta property="article:author" content="薛浩琳">
+<meta property="article:tag" content="记录生活">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ec-company.github.io/2020/09/30/%E6%B3%A8%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>注解 | 薛浩琳的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">薛浩琳的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learning can be life-changing</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/30/%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="薛浩琳">
+      <meta itemprop="description" content="世上无难事，只怕有心人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛浩琳的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          注解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-30 13:45:59 / 修改时间：13:49:13" itemprop="dateCreated datePublished" datetime="2020-09-30T13:45:59+08:00">2020-09-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="注解（Annotations）"><a href="#注解（Annotations）" class="headerlink" title="注解（Annotations）"></a>注解（Annotations）</h1><p>注解为程序提供元数据（metadata）.元数据又称中介数据、中继数据，为描述数据的数据（data about data），主要是描述数据属性（property）的信息。它不会影响程序的编译方式，也不会影响最终的编译结果。</p>
+<a id="more"></a>
+
+<p>注解有如下的使用场景：</p>
+<ul>
+<li>编译器信息— 编译器用注解检测到错误或抑制警告。</li>
+<li>编译时和部署时的处理 — 软件工具可以处理注释的信息来生成代码，XML文件，等等。</li>
+<li>运行时处理 — 有些注解是在运行时进行检查.</li>
+</ul>
+<h2 id="注解的格式"><a href="#注解的格式" class="headerlink" title="注解的格式"></a>注解的格式</h2><p>注解的格式的通常拥有键/值对，其键就是方法名。<br>格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br></pre></td></tr></table></figure>
+
+<p>符号<code>@</code>告诉编译器这是个注解。</p>
+<p>注解可以包含有名字或者没有名字的元素（elements），如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Author(</span><br><span class="line">   name &#x3D; &quot;Benjamin Franklin&quot;,</span><br><span class="line">   date &#x3D; &quot;3&#x2F;27&#x2F;2003&quot;</span><br><span class="line">)</span><br><span class="line">class MyClass() &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(value &#x3D; &quot;unchecked&quot;)</span><br><span class="line">void myMethod() &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>当只有一个元素名字是 value 时，该名字可以省略，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">void myMethod() &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>若注解没有元素，则连圆括号都可以省略。</p>
+<p>同一个声明可以用多个注解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Author(name &#x3D; &quot;Jane Doe&quot;)</span><br><span class="line">@EBook</span><br><span class="line">class MyClass &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>若注解包含相同的类型，则被称为重复注解(repeating annotation)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Author(name &#x3D; &quot;Jane Doe&quot;)</span><br><span class="line">@Author(name &#x3D; &quot;John Smith&quot;)</span><br><span class="line">class MyClass &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重复注解是 Java SE 8 里面支持的。</p>
+<h2 id="注解使用的地方"><a href="#注解使用的地方" class="headerlink" title="注解使用的地方"></a>注解使用的地方</h2><p>注解可以应用到程序声明的类，字段，方法，和其他程序元素。当在一个声明中使用，按照惯例，每个注解经常会出现在它自己的行。</p>
+<p>Java SE8 开始，注解也可以应用于类型使用（type use），称为类型注解（type annotation）。 这里有些例子：</p>
+<ul>
+<li>类实例创建表达式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new @Interned MyObject()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>类型投射</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myString &#x3D; (@NonNull String) str;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现条款</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class UnmodifiableList&lt;T&gt; implements</span><br><span class="line">        @Readonly List&lt;@Readonly T&gt; &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>抛出异常声明</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void monitorTemperature() throws</span><br><span class="line">        @Critical TemperatureException &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="声明一个注解类型"><a href="#声明一个注解类型" class="headerlink" title="声明一个注解类型"></a>声明一个注解类型</h2><p>许多注解取代了本来已经在代码中的注释。</p>
+<p>假设传统的软件组在每个类的类体的开始，使用注释提供了重要的信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Generation3List</span> <span class="keyword">extends</span> <span class="title">Generation2List</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Author: John Doe</span></span><br><span class="line">   <span class="comment">// Date: 3/17/2002</span></span><br><span class="line">   <span class="comment">// Current revision: 6</span></span><br><span class="line">   <span class="comment">// Last modified: 4/12/2004</span></span><br><span class="line">   <span class="comment">// By: Jane Doe</span></span><br><span class="line">   <span class="comment">// Reviewers: Alice, Bill, Cindy</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// class code goes here</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用注解提供一样的元数据，首先要声明一个注解类型，语法是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@interface</span> ClassPreamble &#123;</span><br><span class="line">   <span class="function">String <span class="title">author</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="function">String <span class="title">date</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">currentRevision</span><span class="params">()</span> <span class="keyword">default</span> 1</span>;</span><br><span class="line">   <span class="function">String <span class="title">lastModified</span><span class="params">()</span> <span class="keyword">default</span> &quot;N/A&quot;</span>;</span><br><span class="line">   <span class="function">String <span class="title">lastModifiedBy</span><span class="params">()</span> <span class="keyword">default</span> &quot;N/A&quot;</span>;</span><br><span class="line">   <span class="comment">// Note use of array</span></span><br><span class="line">   String[] reviewers();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注解的声明，就像在 interface 声明前面添加一个<code>@</code>字符(<code>@</code>是AT,即 Annotation Type)。注解类型，其实是接口的一种特殊形式，后面会讲到。就目前而言，你不需要了解。</p>
+<p>注解的声明的正文，包括注解元素的声明，看起来很像方法。注意，这里可以定义可选的默认值。</p>
+<p>一旦注解定义好了，就可以在使用注解时，填充注解的值，就像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@ClassPreamble (</span><br><span class="line">   author &#x3D; &quot;John Doe&quot;,</span><br><span class="line">   date &#x3D; &quot;3&#x2F;17&#x2F;2002&quot;,</span><br><span class="line">   currentRevision &#x3D; 6,</span><br><span class="line">   lastModified &#x3D; &quot;4&#x2F;12&#x2F;2004&quot;,</span><br><span class="line">   lastModifiedBy &#x3D; &quot;Jane Doe&quot;,</span><br><span class="line">   &#x2F;&#x2F; Note array notation</span><br><span class="line">   reviewers &#x3D; &#123;&quot;Alice&quot;, &quot;Bob&quot;, &quot;Cindy&quot;&#125;</span><br><span class="line">)</span><br><span class="line">public class Generation3List extends Generation2List &#123;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; class code goes here</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>要让<code>@ClassPreamble</code>的信息出现在 Javadoc 生成的文档，必须使用<code>@Documented</code>注解定义<code>@ClassPreamble</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// import this to use @Documented</span></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@interface</span> ClassPreamble &#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Annotation element definitions</span></span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="预定义注解的类型"><a href="#预定义注解的类型" class="headerlink" title="预定义注解的类型"></a>预定义注解的类型</h2><p>有这么几种注解类型预定义在  Java SE API 了。一些注解类型是供 Java 编译器使用，一些是供其他注解使用。</p>
+<h3 id="Java-语言使用的注解"><a href="#Java-语言使用的注解" class="headerlink" title="Java 语言使用的注解"></a>Java 语言使用的注解</h3><p>定义在 java.lang 中的是  <code>@Deprecated</code>, <code>@Override</code>, 和 <code>@SuppressWarnings</code></p>
+<p><code>@Deprecated</code>注解指示，标识的元素是废弃的(deprecated)，不应该再使用。编译器会在任何使用到<code>@Deprecated</code>的类，方法，字段的程序时产生警告。当元素是废弃的，它也应该使用 Javadoc 的 <code>@deprecated</code> 标识文档化，如下面的例子。两个Javadoc 注释和注解中的“@”符号的使用不是巧合 - 它们是相关的概念上。另外，请注意Javadoc标记开始用小写字母“d”和注解开始以大写字母“D”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Javadoc comment follows</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @deprecated</span><br><span class="line">     * explanation of why it was deprecated</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Deprecated</span><br><span class="line">    static void deprecatedMethod() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Override</code>注解通知编译器，覆盖父类声明的元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; mark method as a superclass method</span><br><span class="line">&#x2F;&#x2F; that has been overridden</span><br><span class="line">@Override </span><br><span class="line">int overriddenMethod() &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然不要求在覆盖方法时，必须使用注解，但是它可以避免错误。如果一个方法标记为<code>@Override</code>，但是无法正确覆盖父类的任何方法，编译器会产生错误。</p>
+<p><code>@SuppressWarnings</code>告诉编译器，抑制正常情况下会产生的特定的警告。下面的例子，一个废弃的方法被使用，编译器正常会产生警告，而这个情况下，这个注解导致警告会被抑制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use a deprecated method and tell </span></span><br><span class="line"><span class="comment">// compiler not to generate a warning</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&quot;deprecation&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">useDeprecatedMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// deprecation warning</span></span><br><span class="line">    <span class="comment">// - suppressed</span></span><br><span class="line">    objectOne.deprecatedMethod();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个编译器的警告属于一个类别。Java 语言规范有两个类别：”deprecation” 和”unchecked”。”unchecked” 会在使用以前的写的泛型的遗留代码进行交互时，产生警告。抑制更多类别的警告，使用下面的语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123;&quot;unchecked&quot;, &quot;deprecation&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>@SafeVarargs</code>注解，当应用于方法或构造，断言代码不对其可变参数（varargs）的参数进行潜在的不安全操作。当使用这个注释类型时，与可变参数相关未检查警告被抑制。</p>
+<p><code>@FunctionalInterface</code>是在 Java SE 8 中引入，由 Java 语言规范定义的那样，表示该类型声明意在成为功能性的接口。</p>
+<h3 id="注解应用于其他注解"><a href="#注解应用于其他注解" class="headerlink" title="注解应用于其他注解"></a>注解应用于其他注解</h3><p>注解应用于其他注解称为元注解（ meta-annotations）。java.lang.annotation 中定义了多种元注解。</p>
+<p><code>@Retention</code> 注解指定了标记的注解如何存储：</p>
+<ul>
+<li>RetentionPolicy.SOURCE - 该标记注解只保留在源码级，在编译阶段丢弃。这些注解在编译结束之后就不再有任何意义，所以它们不会写入字节码。<code>@Override</code>、<code>@SuppressWarnings</code>都属于这类注解。</li>
+<li>RetentionPolicy.CLASS - 该标记注释是由编译器在编译时保留， 在类加载的时候丢弃。在字节码文件的处理中有用。注解默认使用这种方式。</li>
+<li>RetentionPolicy.RUNTIME - 该标记注解由JVM保留，因此可以使用在运行时环境。因此可以使用反射机制读取该注解的信息。我们自定义的注解通常使用这种方式。</li>
+</ul>
+<p><code>@Documented</code>注释表明，只要指定哪些元素应该使用 Javadoc 工具。 （默认情况下，注解不包括在 Javadoc 中。）有关详细信息，请参阅的 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/javadoc/index.html">Javadoc 工具页面</a>。</p>
+<p><code>@Target</code> 用于标记其他注解，限制什么样的 Java 元素的注解可以应用到。<code>@Target</code> 注解指定以下元素类型作为其值之一：</p>
+<ul>
+<li>ElementType.ANNOTATION_TYPE 可以应用于注释类型。</li>
+<li>ElementType.CONSTRUCTOR 可以应用于构造体。</li>
+<li>ElementType.FIELD 可以应用于一个字段或属性。</li>
+<li>ElementType.LOCAL_VARIABLE 可以应用到局部变量。</li>
+<li>ElementType.METHOD 可以应用于一方法级注释。</li>
+<li>ElementType.PACKAGE 可以应用到一个包声明。</li>
+<li>ElementType.PARAMETER 可以应用于方法的参数。</li>
+<li>ElementType.TYPE 可以应用于类的任意元素。</li>
+</ul>
+<p><code>@Inherited</code> 指示注释类型可以从超类继承。（默认不是 true）。当用户查询注释类型,类没有这种类型注释，此时从这个类的父类中查询注释类型。这个注释只适用于类的声明。</p>
+<p><code>@Repeatable</code>注解，在 Java SE 8 中引入的，表示该标记的注解可以多次应用到同一声明或类型使用。欲了解更多信息，请参阅重复注解。</p>
+<h2 id="类型注解以及可拔插的类型系统"><a href="#类型注解以及可拔插的类型系统" class="headerlink" title="类型注解以及可拔插的类型系统"></a>类型注解以及可拔插的类型系统</h2><p>Java SE8 之前，注解只能用于声明，从 Java SE8 开始，注解也可以应用于类型使用（type use），称为类型注解（type annotation）。意味着，注解可以使用在任何使用的类型。</p>
+<p>类型注解为 Java 程序提供了更强的类型检查分析。Java SE 8 版本不提供类​​型检查的框架，但它可以让你自己写（或下载）类型检查框架，该框架实现了与 Java 编译器一起使用的一个或多个可插拔模块。</p>
+<p>例如，要确保在你的程序中一个特定变量从未被分配到 null ,从而避免引发NullPointerException 异常。您可以编写自定义插件来检查这一点。然后，您可以修改代码以注明这个特定变量，以表明它是永远不会分配给 null。变量声明可能是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@NonNull String str;</span><br></pre></td></tr></table></figure>
+
+<p>当您编译代码，包括在命令行中的 NonNull 模块，如果它检测到潜在的问题，编译器输出警告，让您可以修改代码以避免错误。在更正代码后，消除所有警告，当程序运行时不会发生此​​特定错误。</p>
+<p>您可以使用多个类型检查的模块，每个模块检查不同类型的错误。通过这种方式，你可以建立在 Java 类型系统之上，随时随地添加您想要的特定检查。</p>
+<p>通过明智地使用类型注解和可插拔的类型检查器，你写的代码，将更强大，更不易出错。</p>
+<p>在很多情况下，你不必写自己的类型检查模块。第三方组织已经在做这个工作了。例如，华盛顿大学(the University of Washington)创建的  Checker Framework 。该框架包括一个 NonNull 模块，以及一个正则表达式模块和互斥锁模块。欲了解更多信息，请参见 <a target="_blank" rel="noopener" href="http://types.cs.washington.edu/checker-framework/">Checker Framework</a>。</p>
+<h2 id="重复注解"><a href="#重复注解" class="headerlink" title="重复注解"></a>重复注解</h2><p>若注解包含相同的类型，则被称为重复注解(repeating annotation)，这个是 Java SE 8 之后所支持的。</p>
+<p>比如，你正在编写的代码使用计时器服务，使您能够在特定的时间或在某个计划，类似于 UNIX cron 服务运行的方法。现在，你要设置一个计时器，在下午 11:00 运行的方法，doPeriodicCleanup，在每月和每周五的最后一天要设置定时运行，创建一个<code>@Schedule</code>注释，并两次将其应用到了 doPeriodicCleanup 方法。在第一次使用指定月的最后一天和第二指定星期五在下午11点，使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Schedule(dayOfMonth&#x3D;&quot;last&quot;)</span><br><span class="line">@Schedule(dayOfWeek&#x3D;&quot;Fri&quot;, hour&#x3D;&quot;23&quot;)</span><br><span class="line">public void doPeriodicCleanup() &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的示例是将注解应用在方法上。你可以在任何使用标准的注解地方使用重复注解。例如，你有一个类来处理未授权的访问异常。有一个<code>@Alert</code>注解的类标注为管理人员和另一个用于管理员：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Alert(role&#x3D;&quot;Manager&quot;)</span><br><span class="line">@Alert(role&#x3D;&quot;Administrator&quot;)</span><br><span class="line">public class UnauthorizedAccessException extends SecurityException &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于兼容性的原因，重复的注释被存储在一个由 Java 编译器自动产生的容器注解（container annotation）里。为了使编译器要做到这一点，你的代码里两个声明都需要。</p>
+<h3 id="第一步：声明一个重复注解"><a href="#第一步：声明一个重复注解" class="headerlink" title="第一步：声明一个重复注解"></a>第一步：声明一个重复注解</h3><p>重复注解用 @Repeatable 元注解标记。下面例子定义一个自定义的 @Schedule 重复注解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.Repeatable;</span><br><span class="line"></span><br><span class="line">@Repeatable(Schedules.class)</span><br><span class="line">public @interface Schedule &#123;</span><br><span class="line">  String dayOfMonth() default &quot;first&quot;;</span><br><span class="line">  String dayOfWeek() default &quot;Mon&quot;;</span><br><span class="line">  int hour() default 12;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Repeatable</code>元注解的值是由 Java 编译器生成存储重复注解的容器注解的类型。在本例中，容器注解的类型是 Schedules，所以重复注解 <code>@Schedule</code> 被存储在<code>@Schedules</code> 注解中。</p>
+<p>应用相同注解到声明但没有首先声明它是可重复的，则在编译时会出错。</p>
+<h3 id="步骤2：声明容器注解类型"><a href="#步骤2：声明容器注解类型" class="headerlink" title="步骤2：声明容器注解类型"></a>步骤2：声明容器注解类型</h3><p>容器注解类型必须有数组类型的元素 value,而数组类型的组件类型必须是重复注解类型，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public @interface Schedules &#123;</span><br><span class="line">    Schedule[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检索注解"><a href="#检索注解" class="headerlink" title="检索注解"></a>检索注解</h3><p>反射 API 有几种方法可用于检索注解。返回单个注解的方法的行为，如<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html#getAnnotationByType-java.lang.Class-">AnnotatedElement.getAnnotationByType(Class<T>)</a>，如果所请求的类型的注解类型只存在一个则仅返回一个注解，则该行为是没有改变的。如果有多个请求类型的注解类型存在，则可以通过先得到他们的容器注解从而获取它们。这种方式下，传统代码继续工作。其他方法是在 Java SE 8 中，通过容器注释扫描到一次返回多个注解，如 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html#getAnnotations-java.lang.Class-">AnnotatedElement.getAnnotations(Class<T>)</a>。见<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/AnnotatedElement.html">AnnotatedElement</a> 类的规范，查看所有的可用方法的信息。</p>
+<h3 id="设计考虑"><a href="#设计考虑" class="headerlink" title="设计考虑"></a>设计考虑</h3><p>当设计一个注解类型，你必须考虑到该类型的注解的基数(cardinality)。现在可以使用一个注释零次，一次，或者，如果注解的类型被标以<code>@Repeatable</code>，则不止一次。另外，也可以通过使用<code>@Target</code>元注解来限制注解类型在哪里使用。例如，您可以创建一个只能在方法和字段使用可重复的注解类型。精心设计的注解类型是非常重要的，要确保使用注解的程序员感觉越灵活和强大越好。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="如何定义注解"><a href="#如何定义注解" class="headerlink" title="如何定义注解"></a>如何定义注解</h3><p>我们自定义了一个注解 MyAnnotation，用来标识我们是什么公司:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RUNTIME)</span><br><span class="line">public @interface MyAnnotation &#123;</span><br><span class="line">	String company() default &quot;waylau.com&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该注解只有一个方法声明 company()，默认值是字符串“waylau.com”。</p>
+<h3 id="如何使用注解"><a href="#如何使用注解" class="headerlink" title="如何使用注解"></a>如何使用注解</h3><p>下面演示下如何用这个注解。</p>
+<p>我们在测试类 AnnotationTest 的方法上加上了我们的注解，并设了值“<a href="http://www.waylau.com”：">www.waylau.com”：</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class AnnotationTest &#123;</span><br><span class="line"></span><br><span class="line">	@MyAnnotation(company&#x3D;&quot;https:&#x2F;&#x2F;waylau.com&quot;)</span><br><span class="line">    public void execute()&#123;</span><br><span class="line">        System.out.println(&quot;do something~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如果获取注解的信息"><a href="#如果获取注解的信息" class="headerlink" title="如果获取注解的信息"></a>如果获取注解的信息</h3><p>通过反射机制，我们可以获取到注解的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">AnnotationTest test &#x3D; new AnnotationTest();</span><br><span class="line"></span><br><span class="line">test.execute();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取 AnnotationTest 的Class实例</span><br><span class="line">Class&lt;AnnotationTest&gt; c &#x3D; AnnotationTest.class;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取需要处理的方法Method实例</span><br><span class="line">Method method &#x3D; c.getMethod(&quot;execute&quot;, new Class[]&#123;&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 判断该方法是否包含 MyAnnotation 注解</span><br><span class="line">if(method.isAnnotationPresent(MyAnnotation.class))&#123;</span><br><span class="line">	</span><br><span class="line">    &#x2F;&#x2F; 获取该方法的 MyAnnotation 注解实例</span><br><span class="line">    MyAnnotation myAnnotation &#x3D; method.getAnnotation(MyAnnotation.class);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 执行该方法</span><br><span class="line">    method.invoke(test, new Object[]&#123;&#125;);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 获取 myAnnotation 的属性值</span><br><span class="line">    String company &#x3D; myAnnotation.company();</span><br><span class="line">    System.out.println(company);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取方法上的所有注解</span><br><span class="line">Annotation[] annotations &#x3D; method.getAnnotations();</span><br><span class="line">	for(Annotation annotation : annotations)&#123;</span><br><span class="line">	    System.out.println(annotation);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行，正常情况下能看到如下打印信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>只想买包辣条</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="薛浩琳 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/30/%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/" rel="prev" title="类和对象">
+      <i class="fa fa-chevron-left"></i> 类和对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/30/%E6%B3%9B%E5%9E%8B/" rel="next" title="泛型">
+      泛型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%EF%BC%88Annotations%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">注解（Annotations）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">注解的格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="nav-number">1.2.</span> <span class="nav-text">注解使用的地方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E6%B3%A8%E8%A7%A3%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">声明一个注解类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">预定义注解的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.4.1.</span> <span class="nav-text">Java 语言使用的注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E5%BA%94%E7%94%A8%E4%BA%8E%E5%85%B6%E4%BB%96%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.4.2.</span> <span class="nav-text">注解应用于其他注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%8F%AF%E6%8B%94%E6%8F%92%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.</span> <span class="nav-text">类型注解以及可拔插的类型系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.6.</span> <span class="nav-text">重复注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E9%87%8D%E5%A4%8D%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.6.1.</span> <span class="nav-text">第一步：声明一个重复注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E5%A3%B0%E6%98%8E%E5%AE%B9%E5%99%A8%E6%B3%A8%E8%A7%A3%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.2.</span> <span class="nav-text">步骤2：声明容器注解类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.6.3.</span> <span class="nav-text">检索注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%80%83%E8%99%91"><span class="nav-number">1.6.4.</span> <span class="nav-text">设计考虑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.7.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.7.1.</span> <span class="nav-text">如何定义注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.7.2.</span> <span class="nav-text">如何使用注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E8%8E%B7%E5%8F%96%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">1.7.3.</span> <span class="nav-text">如果获取注解的信息</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="薛浩琳"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">薛浩琳</p>
+  <div class="site-description" itemprop="description">世上无难事，只怕有心人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/EC-Company" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;EC-Company" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5417449202/home?wvr=5&sudaref=graph.qq.com" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5417449202&#x2F;home?wvr&#x3D;5&amp;sudaref&#x3D;graph.qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">薛浩琳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

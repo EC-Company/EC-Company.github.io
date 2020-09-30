@@ -20,20 +20,18 @@
     var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
-<meta property="og:type" content="article">
-<meta property="og:title" content="AOP原来这样做">
-<meta property="og:url" content="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/index.html">
+  <meta name="description" content="世上无难事，只怕有心人">
+<meta property="og:type" content="website">
+<meta property="og:title" content="薛浩琳的blog">
+<meta property="og:url" content="https://ec-company.github.io/archives/2020/page/3/index.html">
 <meta property="og:site_name" content="薛浩琳的blog">
-<meta property="og:description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
+<meta property="og:description" content="世上无难事，只怕有心人">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-09-29T14:47:20.000Z">
-<meta property="article:modified_time" content="2020-09-30T05:39:47.988Z">
 <meta property="article:author" content="薛浩琳">
 <meta property="article:tag" content="记录生活">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
+<link rel="canonical" href="https://ec-company.github.io/archives/2020/page/3/">
 
 
 <script id="page-configurations">
@@ -41,12 +39,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>AOP原来这样做 | 薛浩琳的blog</title>
+  <title>归档 | 薛浩琳的blog</title>
   
 
 
@@ -188,186 +186,154 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content archive">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="薛浩琳">
-      <meta itemprop="description" content="世上无难事，只怕有心人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="薛浩琳的blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          AOP原来这样做
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-29 22:47:20" itemprop="dateCreated datePublished" datetime="2020-09-29T22:47:20+08:00">2020-09-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-30 13:39:47" itemprop="dateModified" datetime="2020-09-30T13:39:47+08:00">2020-09-30</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>1-简介<br>审计日记就是记录用户的操作记录<br>基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析<br>2-实现<br>2-1 日志存储实体类</p>
-<a id="more"></a>
-<p>复制代码<br>@Data<br>@Builder<br>@ToString<br>public class AuditingLog {</p>
-<pre><code>private String userId;  // 用户id
-
-private String userNickname; //用户昵称
-
-private String operationInfo; //操作信息
-
-private String interfaceName; // 调用的接口方法名
-
-private String applicationName; // 调用的服务名
-
-private LocalDateTime createTime; //操作时间</code></pre>
-<p>}<br>复制代码</p>
-<p>2-2 自定义审计日志注解<br>@Documented<br>@Retention(RetentionPolicy.RUNTIME)<br>@Target({ElementType.TYPE, ElementType.METHOD})<br>public @interface AuditLog {<br>    String logInfo(); //日志信息<br>}<br>2-3 日志注解的AOP的切面<br>复制代码<br>@Aspect<br>@Component<br>public class AuditLogAOP {</p>
-<pre><code>   @Value(&quot;$&#123;spring.application.name&#125;&quot;)
-private String applicationName; //从配置文件获得服务名
-
-// spel表达式解析器
-private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
-
-// 参数名发现器
-private DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-
-@Before(value = &quot;@annotation(enableAuditLog) || @within(enableAuditLog)&quot;)
-public void getAutiLogInfo(JoinPoint joinPoint, AuditLog enableAuditLog)&#123;
-
-    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-    if (enableAuditLog == null) &#123;
-        enableAuditLog = signature.getMethod().getAnnotation(AuditLog.class);
-    &#125;
-
-    // 构建日志存储对象
-    AuditingLog auditlog = AuditingLog.builder().applicationName(applicationName).createTime(LocalDateTime.now()).build();
-
-    auditlog.setUserId(xxx);  // 从上下文获取当前操作的用户信息
-    auditlog.setUserNickname(xx);
-
-// 设置操作的接口方法名        
-auditlog.setInterfaceName(signature.getDeclaringTypeName()+&quot;.&quot;+signature.getName());
-
-    // 获得日志注解上自定义的日志信息
-    String logInfo = enableAuditLog.logInfo();
-
-    // Spel表达式解析日志信息
-    // 获得方法参数名数组
-    String[] parameterNames = parameterNameDiscoverer.getParameterNames(signature.getMethod());
-    if (parameterNames != null &amp;&amp; parameterNames.length &gt; 0)&#123;
-        EvaluationContext context = new StandardEvaluationContext();
-
-        //获取方法参数值
-        Object[] args = joinPoint.getArgs();
-        for (int i = 0; i &lt; args.length; i++) &#123;
-            context.setVariable(parameterNames[i],args[i]); // 替换spel里的变量值为实际值， 比如 #user --&gt;  user对象
-        &#125;
-
-        // 解析出实际的日志信息
-        String opeationInfo = spelExpressionParser.parseExpression(logInfo).getValue(context).toString();
-        auditlog.setOperationInfo(opeationInfo);
-    &#125;
-
-    // 打印日志信息
-    log.info(auditlog.toString());
-
-    //TODO 这时可以将日志信息auditlog进行异步存储,比如写入到文件通过logstash增量的同步到Elasticsearch或者DB
-
-&#125;</code></pre>
-<p>}<br>复制代码<br>2-4 开启审计日志功能<br>在分布式项目中一般会将日志抽离出来公共调用, 所以为了方便的注入审计日志功能,可以编写对应 Enable注解<br>@Target(ElementType.TYPE)<br>@Retention(RetentionPolicy.RUNTIME)<br>@Import({AuditLogAOP.class}) // 注入AOP切面到容器<br>public @interface EnableAuditLog {</p>
-<p>}<br>3 使用<br>3-1 开启审计日志功能<br>在要使用审计日志功能的服务的入口类开启审计日志功能<br>比如</p>
-<p>复制代码<br>@SpringBootApplication<br>@EnableDiscoveryClient<br>@EnableAuditLog //开启审计日志<br>public class UmsAdminApplication {<br>    public static void main(String[] args) {<br>        SpringApplication.run(UmsAdminApplication.class,args);<br>    }<br>}<br>复制代码<br>3-2 在接口上使用<br>比如:</p>
-<pre><code>@AuditLog(logInfo = &quot;&#39;新增管理员:&#39;+ #user.username&quot;)
-@PostMapping
-public String addUser(@RequestBody User user)&#123;
-
-    return null;
-&#125;</code></pre>
-<p>转载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41347419/article/details/107573038">https://blog.csdn.net/weixin_41347419/article/details/107573038</a></p>
-
-    </div>
-
-    
-    
-    
-        <div class="reward-container">
-  <div>只想买包辣条</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wechatpay.png" alt="薛浩琳 微信支付">
-        <p>微信支付</p>
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <span class="collection-header">嗯..! 目前共计 26 篇日志。 继续努力。</span>
       </div>
 
-  </div>
-</div>
-
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/09/28/xuehaolin/" rel="prev" title="xuehaolin">
-      <i class="fa fa-chevron-left"></i> xuehaolin
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/" rel="next" title="四六级同义词替换（加分项）">
-      四六级同义词替换（加分项） <i class="fa fa-chevron-right"></i>
-    </a></div>
+      
+    <div class="collection-year">
+      <span class="collection-header">2020</span>
     </div>
-      </footer>
-    
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-30T10:17:31+08:00"
+              content="2020-09-30">
+          09-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/30/Eclipse%E4%B8%AD%E5%88%9B%E5%BB%BAweb%E9%A1%B9%E7%9B%AE/" itemprop="url">
+            <span itemprop="name">Eclipse中创建web项目</span>
+          </a>
+      </div>
+
+    </header>
   </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-30T10:16:35+08:00"
+              content="2020-09-30">
+          09-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/30/Eclipse%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" itemprop="url">
+            <span itemprop="name">Eclipse中创建项目</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-30T10:14:42+08:00"
+              content="2020-09-30">
+          09-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/30/spark%E7%94%B5%E5%AD%90%E4%B9%A6/" itemprop="url">
+            <span itemprop="name">spark电子书</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-29T22:48:04+08:00"
+              content="2020-09-29">
+          09-29
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/" itemprop="url">
+            <span itemprop="name">四六级同义词替换（加分项）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-29T22:47:20+08:00"
+              content="2020-09-29">
+          09-29
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/" itemprop="url">
+            <span itemprop="name">AOP原来这样做</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-09-28T15:04:20+08:00"
+              content="2020-09-28">
+          09-28
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/09/28/xuehaolin/" itemprop="url">
+            <span itemprop="name">xuehaolin</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+
+    </div>
+  </div>
   
   
   
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2020/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/2020/">1</a><a class="page-number" href="/archives/2020/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 
 

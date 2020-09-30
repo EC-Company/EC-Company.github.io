@@ -20,20 +20,24 @@
     var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
+  <meta name="description" content="网络基础在互联网上之间的通信交流，一般是基于 TCP  (Transmission Control Protocol，传输控制协议) 或者 UDP (User Datagram Protocol，用户数据报协议) ，如下图：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AOP原来这样做">
-<meta property="og:url" content="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/index.html">
+<meta property="og:title" content="网络基础">
+<meta property="og:url" content="https://ec-company.github.io/2020/09/30/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="薛浩琳的blog">
-<meta property="og:description" content="1-简介审计日记就是记录用户的操作记录基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析2-实现2-1 日志存储实体类">
+<meta property="og:description" content="网络基础在互联网上之间的通信交流，一般是基于 TCP  (Transmission Control Protocol，传输控制协议) 或者 UDP (User Datagram Protocol，用户数据报协议) ，如下图：">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-09-29T14:47:20.000Z">
-<meta property="article:modified_time" content="2020-09-30T05:39:47.988Z">
+<meta property="og:image" content="https://ec-company.github.io/2020/09/30/images/net/1netw.gif">
+<meta property="og:image" content="https://ec-company.github.io/2020/09/30/images/net/2tcp.gif">
+<meta property="og:image" content="https://ec-company.github.io/2020/09/30/images/net/3tcpudp.gif">
+<meta property="article:published_time" content="2020-09-30T05:56:36.000Z">
+<meta property="article:modified_time" content="2020-09-30T05:58:11.556Z">
 <meta property="article:author" content="薛浩琳">
 <meta property="article:tag" content="记录生活">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ec-company.github.io/2020/09/30/images/net/1netw.gif">
 
-<link rel="canonical" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
+<link rel="canonical" href="https://ec-company.github.io/2020/09/30/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
 
 
 <script id="page-configurations">
@@ -46,7 +50,7 @@
   };
 </script>
 
-  <title>AOP原来这样做 | 薛浩琳的blog</title>
+  <title>网络基础 | 薛浩琳的blog</title>
   
 
 
@@ -195,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/">
+    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/30/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -208,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AOP原来这样做
+          网络基础
         </h1>
 
         <div class="post-meta">
@@ -217,16 +221,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-09-29 22:47:20" itemprop="dateCreated datePublished" datetime="2020-09-29T22:47:20+08:00">2020-09-29</time>
+              <time title="创建时间：2020-09-30 13:56:36 / 修改时间：13:58:11" itemprop="dateCreated datePublished" datetime="2020-09-30T13:56:36+08:00">2020-09-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-30 13:39:47" itemprop="dateModified" datetime="2020-09-30T13:39:47+08:00">2020-09-30</time>
-              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -246,84 +244,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>1-简介<br>审计日记就是记录用户的操作记录<br>基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析<br>2-实现<br>2-1 日志存储实体类</p>
+        <h2 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h2><p>在互联网上之间的通信交流，一般是基于 TCP  (Transmission Control Protocol，传输控制协议) 或者 UDP (User Datagram Protocol，用户数据报协议) ，如下图：</p>
 <a id="more"></a>
-<p>复制代码<br>@Data<br>@Builder<br>@ToString<br>public class AuditingLog {</p>
-<pre><code>private String userId;  // 用户id
 
-private String userNickname; //用户昵称
-
-private String operationInfo; //操作信息
-
-private String interfaceName; // 调用的接口方法名
-
-private String applicationName; // 调用的服务名
-
-private LocalDateTime createTime; //操作时间</code></pre>
-<p>}<br>复制代码</p>
-<p>2-2 自定义审计日志注解<br>@Documented<br>@Retention(RetentionPolicy.RUNTIME)<br>@Target({ElementType.TYPE, ElementType.METHOD})<br>public @interface AuditLog {<br>    String logInfo(); //日志信息<br>}<br>2-3 日志注解的AOP的切面<br>复制代码<br>@Aspect<br>@Component<br>public class AuditLogAOP {</p>
-<pre><code>   @Value(&quot;$&#123;spring.application.name&#125;&quot;)
-private String applicationName; //从配置文件获得服务名
-
-// spel表达式解析器
-private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
-
-// 参数名发现器
-private DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-
-@Before(value = &quot;@annotation(enableAuditLog) || @within(enableAuditLog)&quot;)
-public void getAutiLogInfo(JoinPoint joinPoint, AuditLog enableAuditLog)&#123;
-
-    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-    if (enableAuditLog == null) &#123;
-        enableAuditLog = signature.getMethod().getAnnotation(AuditLog.class);
-    &#125;
-
-    // 构建日志存储对象
-    AuditingLog auditlog = AuditingLog.builder().applicationName(applicationName).createTime(LocalDateTime.now()).build();
-
-    auditlog.setUserId(xxx);  // 从上下文获取当前操作的用户信息
-    auditlog.setUserNickname(xx);
-
-// 设置操作的接口方法名        
-auditlog.setInterfaceName(signature.getDeclaringTypeName()+&quot;.&quot;+signature.getName());
-
-    // 获得日志注解上自定义的日志信息
-    String logInfo = enableAuditLog.logInfo();
-
-    // Spel表达式解析日志信息
-    // 获得方法参数名数组
-    String[] parameterNames = parameterNameDiscoverer.getParameterNames(signature.getMethod());
-    if (parameterNames != null &amp;&amp; parameterNames.length &gt; 0)&#123;
-        EvaluationContext context = new StandardEvaluationContext();
-
-        //获取方法参数值
-        Object[] args = joinPoint.getArgs();
-        for (int i = 0; i &lt; args.length; i++) &#123;
-            context.setVariable(parameterNames[i],args[i]); // 替换spel里的变量值为实际值， 比如 #user --&gt;  user对象
-        &#125;
-
-        // 解析出实际的日志信息
-        String opeationInfo = spelExpressionParser.parseExpression(logInfo).getValue(context).toString();
-        auditlog.setOperationInfo(opeationInfo);
-    &#125;
-
-    // 打印日志信息
-    log.info(auditlog.toString());
-
-    //TODO 这时可以将日志信息auditlog进行异步存储,比如写入到文件通过logstash增量的同步到Elasticsearch或者DB
-
-&#125;</code></pre>
-<p>}<br>复制代码<br>2-4 开启审计日志功能<br>在分布式项目中一般会将日志抽离出来公共调用, 所以为了方便的注入审计日志功能,可以编写对应 Enable注解<br>@Target(ElementType.TYPE)<br>@Retention(RetentionPolicy.RUNTIME)<br>@Import({AuditLogAOP.class}) // 注入AOP切面到容器<br>public @interface EnableAuditLog {</p>
-<p>}<br>3 使用<br>3-1 开启审计日志功能<br>在要使用审计日志功能的服务的入口类开启审计日志功能<br>比如</p>
-<p>复制代码<br>@SpringBootApplication<br>@EnableDiscoveryClient<br>@EnableAuditLog //开启审计日志<br>public class UmsAdminApplication {<br>    public static void main(String[] args) {<br>        SpringApplication.run(UmsAdminApplication.class,args);<br>    }<br>}<br>复制代码<br>3-2 在接口上使用<br>比如:</p>
-<pre><code>@AuditLog(logInfo = &quot;&#39;新增管理员:&#39;+ #user.username&quot;)
-@PostMapping
-public String addUser(@RequestBody User user)&#123;
-
-    return null;
-&#125;</code></pre>
-<p>转载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41347419/article/details/107573038">https://blog.csdn.net/weixin_41347419/article/details/107573038</a></p>
+<p><img src="../images/net/1netw.gif"></p>
+<p>编写 Java 应用，我们只需关注于应用层 （application layer），而不用关心 TCP 和 UDP 所在的传输层是如何实现的。java.net 包含了你编程所需的类，这些类是与操作系统无关的。比如 URL, URLConnection, Socket, 和 ServerSocket 类是使用 TCP 连接网络的， DatagramPacket, DatagramSocket, 和 MulticastSocket 类是用于  UDP  的。</p>
+<p>Java 支持的协议只有  TCP 和 UDP ，以及在建立在  TCP 和 UDP 之上其他应用层协议。所有其他传输层、网际层和更底层的协议，如 ICMP、IGMP、ARP、RARP、RSVP 和其他协议 在 Java 中只能链接到原生代码来实现。</p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>TCP (Transmission Control Protocol) 是面向连接的、提供端到端可靠的数据流(flow of data)。TCP 提供超时重发，丢弃重复数据，检验数据，流量控制等功能，保证数据能从一端传到另一端。 </p>
+<p>“面向连接”就是在正式通信前必须要与对方建立起连接。这一过程与打电话很相似，先拨号振铃，等待对方摘机说“喂”，然后才说明是谁。</p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p>TCP 是基于连接的协议，也就是说，在正式收发数据前，必须和对方建立可靠的连接。一个 TCP 连接必须要经过三次“握手”才能建立起来，简单的讲就是：</p>
+<ol>
+<li>主机 A 向主机 B 发出连接请求数据包：“我想给你发数据，可以吗？”；</li>
+<li>主机 B 向主机 A 发送同意连接和要求同步（同步就是两台主机一个在发送，一个在接收，协调工作）的数据包：“可以，你来吧”；</li>
+<li>主机 A 再发出一个数据包确认主机 B 的要求同步：“好的，我来也，你接着吧！”</li>
+</ol>
+<p>三次“握手”的目的是使数据包的发送和接收同步，经过三次“对话”之后，主机 A 才向主机 B 正式发送数据。</p>
+<p>可以详见<a target="_blank" rel="noopener" href="http://www.waylau.com/tcp-connect-and-close/">《TCP 协议的三次握手、四次分手》</a></p>
+<h3 id="如何保证数据的可靠"><a href="#如何保证数据的可靠" class="headerlink" title="如何保证数据的可靠"></a>如何保证数据的可靠</h3><p>TCP 通过下列方式来提供可靠性：</p>
+<ul>
+<li>应用数据被分割成 TCP 认为最适合发送的数据块。这和 UDP 完全不同，应用程序产生的数据报长度将保持不变。由 TCP 传递给 IP 的信息单位称为报文段或段（segment）。</li>
+<li>当 TCP 发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。（可自行了解 TCP 协议中自适应的超时及重传策略）。</li>
+<li>当  TCP 收到发自  TCP 连接另一端的数据，它将发送一个确认。这个确认不是立即发送，通常将推迟几分之一秒。</li>
+<li>TCP 将保持它首部和数据的检验和。这是一个端到端的检验和，目的是检测数据在传输过程中的任何变化。如果收到段的检验和有差错，  TCP 将丢弃这个报文段和不确认收到此报文段（希望发送端超时并重发）。</li>
+<li>既然 TCP 报文段作为 IP 数据报来传输，而 IP 数据报的到达可能会失序，因此  TCP 报文段的到达也可能会失序。如果必要，  TCP 将对收到的数据进行重新排序，将收到的数据以正确的顺序交给应用层。</li>
+<li>既然 IP 数据报会发生重复，  TCP 的接收端必须丢弃重复的数据。</li>
+<li>TCP 还能提供流量控制。TCP 连接的每一方都有固定大小的缓冲空间。 TCP 的接收端只允许另一端发送接收端缓冲区所能接纳的数据。这将防止较快主机致使较慢主机的缓冲区溢出。</li>
+</ul>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP (User Datagram Protocol) 不是面向连接的，主机发送独立的数据报（datagram）给其他主机，不保证数据到达。由于 UDP 在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。 </p>
+<p>而无连接是一开始就发送信息（严格说来，这是没有开始、结束的），只是一次性的传递，是先不需要接受方的响应，因而在一定程度上也无法保证信息传递的可靠性了，就像写信一样，我们只是将信寄出去，却不能保证收信人一定可以收到。</p>
+<h3 id="TCP-和-UDP-如何抉择"><a href="#TCP-和-UDP-如何抉择" class="headerlink" title="TCP 和 UDP 如何抉择"></a>TCP 和 UDP 如何抉择</h3><p>TCP 是面向连接的，有比较高的可靠性， 一些要求比较高的服务一般使用这个协议，如FTP、Telnet、SMTP、HTTP、POP3 等，而 UDP 是面向无连接的，使用这个协议的常见服务有 DNS、SNMP、QQ 等。对于 QQ 必须另外说明一下，QQ2003 以前是只使用UDP协议的，其服务器使用8000端口，侦听是否有信息传来，客户端使用 4000 端口，向外发送信息（这也就不难理解在一般的显IP的QQ版本中显示好友的IP地址信息中端口常为4000或其后续端口的原因了），即QQ程序既接受服务又提供服务，在以后的 QQ 版本中也支持使用 TCP 协议了。</p>
+<h2 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h2><p>一般来说，一台计算机具有单个物理连接到网络。数据通过这个连接去往特定的计算机。然而，该数据可以被用于在计算机上运行的不同应用。那么，计算机知道哪个应用程序转发数据？通过使用端口。</p>
+<p>在互联网上传输的数据是通过计算机的标识和端口来定位的。计算机的标识是 32-bit  的 IP 地址。端口由一个 16-bit 的数字。</p>
+<p>在诸如面向连接的通信如 TCP，服务器应用将套接字绑定到一个特定端口号。这是向系统注册服务用来接受该端口的数据。然后，客户端可以在与服务器在服务器端口会合，如下图所示：</p>
+<p><img src="../images/net/2tcp.gif"></p>
+<p>TCP 和 UDP 协议使用的端口来将接收到的数据映射到一个计算机上运行的进程。</p>
+<p>在基于数据报的通信，如 UDP，数据报包中包含它的目的地的端口号，然后 UDP 将数据包路由到相应的应用程序，如本图所示的端口号：</p>
+<p><img src="../images/net/3tcpudp.gif"></p>
+<p>端口号取值范围是从 0 到 65535 （16-bit 长度），其中范围从 0 到 1023 是受限的，它们是被知名的服务所保留使用，例如 HTTP （端口是 80）和 FTP （端口是20、21）等系统服务。这些端口被称为众所周知的端口（well-known ports）。您的应用程序不应该试图绑定到他们。你可以访问 <a target="_blank" rel="noopener" href="http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml">http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml</a> 来查询各种常用的已经分配的端口号列表。</p>
 
     </div>
 
@@ -354,12 +311,12 @@ public String addUser(@RequestBody User user)&#123;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/09/28/xuehaolin/" rel="prev" title="xuehaolin">
-      <i class="fa fa-chevron-left"></i> xuehaolin
+    <a href="/2020/09/30/Object/" rel="prev" title="concurrencyImmutableObject">
+      <i class="fa fa-chevron-left"></i> concurrencyImmutableObject
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/" rel="next" title="四六级同义词替换（加分项）">
-      四六级同义词替换（加分项） <i class="fa fa-chevron-right"></i>
+    <a href="/2020/09/30/IO%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E8%BF%9B/" rel="next" title="IO模型的演进">
+      IO模型的演进 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -419,6 +376,7 @@ public String addUser(@RequestBody User user)&#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">网络基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP"><span class="nav-number">2.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">2.1.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%AF%E9%9D%A0"><span class="nav-number">2.2.</span> <span class="nav-text">如何保证数据的可靠</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP"><span class="nav-number">3.</span> <span class="nav-text">UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-%E5%92%8C-UDP-%E5%A6%82%E4%BD%95%E6%8A%89%E6%8B%A9"><span class="nav-number">3.1.</span> <span class="nav-text">TCP 和 UDP 如何抉择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3"><span class="nav-number">4.</span> <span class="nav-text">端口</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

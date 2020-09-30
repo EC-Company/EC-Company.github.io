@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ec-company.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="I&#x2F;O 模型的演进什么是同步？什么是异步？阻塞和非阻塞又有什么区别？本文先从 Unix 的 I&#x2F;O 模型讲起，介绍了5种常见的 I&#x2F;O 模型。而后再引出 Java 的 I&#x2F;O 模型的演进过程，并用实例说明如何选择合适的 Java I&#x2F;O模型来提高系统的并发量和可用性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IO模型的演进">
+<meta property="og:url" content="https://ec-company.github.io/2020/09/30/IO%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E8%BF%9B/index.html">
+<meta property="og:site_name" content="薛浩琳的blog">
+<meta property="og:description" content="I&#x2F;O 模型的演进什么是同步？什么是异步？阻塞和非阻塞又有什么区别？本文先从 Unix 的 I&#x2F;O 模型讲起，介绍了5种常见的 I&#x2F;O 模型。而后再引出 Java 的 I&#x2F;O 模型的演进过程，并用实例说明如何选择合适的 Java I&#x2F;O模型来提高系统的并发量和可用性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-30T05:56:53.000Z">
+<meta property="article:modified_time" content="2020-09-30T05:59:16.051Z">
+<meta property="article:author" content="薛浩琳">
+<meta property="article:tag" content="记录生活">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ec-company.github.io/2020/09/30/IO%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E8%BF%9B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>IO模型的演进 | 薛浩琳的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">薛浩琳的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Learning can be life-changing</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ec-company.github.io/2020/09/30/IO%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E8%BF%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="薛浩琳">
+      <meta itemprop="description" content="世上无难事，只怕有心人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="薛浩琳的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IO模型的演进
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-30 13:56:53 / 修改时间：13:59:16" itemprop="dateCreated datePublished" datetime="2020-09-30T13:56:53+08:00">2020-09-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="I-O-模型的演进"><a href="#I-O-模型的演进" class="headerlink" title="I/O 模型的演进"></a>I/O 模型的演进</h1><p>什么是同步？什么是异步？阻塞和非阻塞又有什么区别？本文先从 Unix 的 I/O 模型讲起，介绍了5种常见的 I/O 模型。而后再引出 Java 的 I/O 模型的演进过程，并用实例说明如何选择合适的 Java I/O<br>模型来提高系统的并发量和可用性。</p>
+<a id="more"></a>
+
+<p>由于，Java 的 I/O 依赖于操作系统的实现，所以先了解 Unix 的 I/O 模型有助于理解 Java 的 I/O。</p>
+<h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><h3 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h3><p>描述的是用户线程与内核的交互方式：</p>
+<ul>
+<li><strong>同步</strong>是指用户线程发起 I/O  请求后需要等待或者轮询内核 I/O 操作完成后才能继续执行；</li>
+<li><strong>异步</strong>是指用户线程发起 I/O 请求后仍继续执行，当内核 I/O 操作完成后会通知用户线程，或者调用用户线程注册的回调函数。</li>
+</ul>
+<h3 id="阻塞和非阻塞"><a href="#阻塞和非阻塞" class="headerlink" title="阻塞和非阻塞"></a>阻塞和非阻塞</h3><p>描述的是用户线程调用内核 I/O 操作的方式：</p>
+<ul>
+<li><strong>阻塞</strong>是指 I/O 操作需要彻底完成后才返回到用户空间；</li>
+<li><strong>非阻塞</strong>是指 I/O 操作被调用后立即返回给用户一个状态值，无需等到 I/O 操作彻底完成。</li>
+</ul>
+<p>一个 I/O 操作其实分成了两个步骤：发起 I/O 请求和实际的 I/O 操作。<br>阻塞 I/O 和非阻塞 I/O 的区别在于第一步，发起 I/O 请求是否会被阻塞，如果阻塞直到完成那么就是传统的阻塞 I/O ，如果不阻塞，那么就是非阻塞 I/O 。<br>同步 I/O 和异步 I/O 的区别就在于第二个步骤是否阻塞，如果实际的 I/O 读写阻塞请求进程，那么就是同步 I/O 。 </p>
+<h3 id="Unix-I-O-模型"><a href="#Unix-I-O-模型" class="headerlink" title="Unix I/O 模型"></a>Unix I/O 模型</h3><p>Unix 下共有五种 I/O 模型： </p>
+<ol>
+<li>阻塞 I/O </li>
+<li>非阻塞 I/O </li>
+<li>I/O 复用（select 和 poll） </li>
+<li>信号驱动 I/O（SIGIO） </li>
+<li>异步 I/O（Posix.1 的 aio_ 系列函数）</li>
+</ol>
+<p>注：若读者想深入了解 Unix 的网络知识，推荐阅读《Unix Network Programming》，文本只简单介绍下这五种模型，文中的图例也引用自该书的图例。</p>
+<h4 id="阻塞-I-O"><a href="#阻塞-I-O" class="headerlink" title="阻塞 I/O"></a>阻塞 I/O</h4><p>请求无法立即完成则保持阻塞。</p>
+<ul>
+<li>阶段1：等待数据就绪。网络 I/O 的情况就是等待远端数据陆续抵达；磁盘I/O的情况就是等待磁盘数据从磁盘上读取到内核态内存中。</li>
+<li>阶段2：数据拷贝。出于系统安全,用户态的程序没有权限直接读取内核态内存,因此内核负责把内核态内存中的数据拷贝一份到用户态内存中。</li>
+</ul>
+<p>![](../images/net/1-7 bio.png)</p>
+<h4 id="非阻塞-I-O"><a href="#非阻塞-I-O" class="headerlink" title="非阻塞 I/O"></a>非阻塞 I/O</h4><ul>
+<li>socket 设置为 NONBLOCK（非阻塞）就是告诉内核，当所请求的 I/O 操作无法完成时，不要将进程睡眠，而是返回一个错误码(EWOULDBLOCK) ，这样请求就不会阻塞</li>
+<li>I/O 操作函数将不断的测试数据是否已经准备好，如果没有准备好，继续测试，直到数据准备好为止。整个 I/O 请求的过程中，虽然用户线程每次发起 I/O 请求后可以立即返回，但是为了等到数据，仍需要不断地轮询、重复请求，消耗了大量的 CPU 的资源</li>
+<li>数据准备好了，从内核拷贝到用户空间。</li>
+</ul>
+<p>![](../images/net/1-8 nio.png)</p>
+<p>一般很少直接使用这种模型，而是在其他 I/O 模型中使用非阻塞 I/O 这一特性。这种方式对单个 I/O 请求意义不大,但给 I/O 多路复用铺平了道路.</p>
+<h3 id="I-O-复用（异步阻塞-I-O）"><a href="#I-O-复用（异步阻塞-I-O）" class="headerlink" title="I/O 复用（异步阻塞 I/O）"></a>I/O 复用（异步阻塞 I/O）</h3><p>I/O 复用会用到 select 或者 poll 函数，这两个函数也会使进程阻塞，但是和阻塞 I/O 所不同的的，这两个函数可以同时阻塞多个 I/O 操作。而且可以同时对多个读操作，多个写操作的 I/O 函数进行检测，直到有数据可读或可写时，才真正调用 I/O 操作函数。 </p>
+<p>![](../images/net/1-9 io-multiplexing.png)</p>
+<p>从流程上来看，使用 select 函数进行 I/O 请求和同步阻塞模型没有太大的区别，甚至还多了添加监视 socket，以及调用 select 函数的额外操作，效率更差。但是，使用 select 以后最大的优势是用户可以在一个线程内同时处理多个 socket 的 I/O 请求。用户可以注册多个 socket，然后不断地调用 select 读取被激活的 socket，即可达到在同一个线程内同时处理多个 I/O 请求的目的。而在同步阻塞模型中，必须通过多线程的方式才能达到这个目的。</p>
+<p>I/O 多路复用模型使用了 Reactor 设计模式实现了这一机制。</p>
+<p>注：有关“Reactor 设计模式”请可参阅 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Reactor_pattern">https://en.wikipedia.org/wiki/Reactor_pattern</a>。</p>
+<p>调用 select / poll 该方法由一个用户态线程负责轮询多个 socket,直到某个阶段1的数据就绪,再通知实际的用户线程执行阶段2的拷贝。<br>通过一个专职的用户态线程执行非阻塞 I/O 轮询,模拟实现了阶段1的异步化。</p>
+<h3 id="信号驱动-I-O（SIGIO）"><a href="#信号驱动-I-O（SIGIO）" class="headerlink" title="信号驱动 I/O（SIGIO）"></a>信号驱动 I/O（SIGIO）</h3><p>首先我们允许 socket 进行信号驱动 I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个 SIGIO 信号，可以在信号处理函数中调用 I/O 操作函数处理数据。</p>
+<p>![](../images/net/1-10 signal-driven-io.png)</p>
+<h3 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h3><p>调用 aio_read 函数，告诉内核描述字，缓冲区指针，缓冲区大小，文件偏移以及通知的方式，然后立即返回。当内核将数据拷贝到缓冲区后，再通知应用程序。</p>
+<p>![](../images/net/1-11 aio.png)</p>
+<p>异步 I/O 模型使用了 Proactor 设计模式实现了这一机制。</p>
+<p>注：有关“Proactor 设计模式”可以参阅 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Proactor_pattern">https://en.wikipedia.org/wiki/Proactor_pattern</a>。</p>
+<p>告知内核,当整个过程(包括阶段1和阶段2)全部完成时,通知应用程序来读数据.</p>
+<h2 id="几种-I-O-模型的比较"><a href="#几种-I-O-模型的比较" class="headerlink" title="几种 I/O 模型的比较"></a>几种 I/O 模型的比较</h2><p>前四种模型的区别是阶段1不相同，阶段2基本相同，都是将数据从内核拷贝到调用者的缓冲区。而异步 I/O 的两个阶段都不同于前四个模型。</p>
+<p>同步 I/O 操作引起请求进程阻塞，直到 I/O 操作完成。异步 I/O 操作不引起请求进程阻塞。</p>
+<p>![](../images/net/1-12 Comparison of the five IO models.png)</p>
+<h2 id="常见-Java-I-O-模型"><a href="#常见-Java-I-O-模型" class="headerlink" title="常见 Java I/O 模型"></a>常见 Java I/O 模型</h2><p>在了解了 UNIX 的 I/O 模型之后，其实 Java 的 I/O 模型也是类似。</p>
+<h2 id="“阻塞I-O”模式"><a href="#“阻塞I-O”模式" class="headerlink" title="“阻塞I/O”模式"></a>“阻塞I/O”模式</h2><p>在上一节 Socket 章节中的 EchoServer 就是一个简单的阻塞 I/O 例子，服务器启动后，等待客户端连接。在客户端连接服务器后，服务器就阻塞读写取数据流。</p>
+<p>EchoServer 代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoServer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_PORT = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">			port = DEFAULT_PORT;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> (</span><br><span class="line">            ServerSocket serverSocket =</span><br><span class="line">                <span class="keyword">new</span> ServerSocket(port);</span><br><span class="line">            Socket clientSocket = serverSocket.accept();     </span><br><span class="line">            PrintWriter out =</span><br><span class="line">                <span class="keyword">new</span> PrintWriter(clientSocket.getOutputStream(), <span class="keyword">true</span>);                   </span><br><span class="line">            BufferedReader in = <span class="keyword">new</span> BufferedReader(</span><br><span class="line">                <span class="keyword">new</span> InputStreamReader(clientSocket.getInputStream()));</span><br><span class="line">        ) &#123;</span><br><span class="line">            String inputLine;</span><br><span class="line">            <span class="keyword">while</span> ((inputLine = in.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                out.println(inputLine);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Exception caught when trying to listen on port &quot;</span></span><br><span class="line">                + port + <span class="string">&quot; or listening for a connection&quot;</span>);</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="改进为“阻塞I-O-多线程”模式"><a href="#改进为“阻塞I-O-多线程”模式" class="headerlink" title="改进为“阻塞I/O+多线程”模式"></a>改进为“阻塞I/O+多线程”模式</h2><p>使用多线程来支持多个客户端来访问服务器。</p>
+<p>主线程 MultiThreadEchoServer.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MultiThreadEchoServer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_PORT = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">			port = DEFAULT_PORT;</span><br><span class="line">		&#125;</span><br><span class="line">		Socket clientSocket = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> (ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(port);) &#123;</span><br><span class="line">			<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">				clientSocket = serverSocket.accept();</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// MultiThread</span></span><br><span class="line">				<span class="keyword">new</span> Thread(<span class="keyword">new</span> EchoServerHandler(clientSocket)).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(</span><br><span class="line">					<span class="string">&quot;Exception caught when trying to listen on port &quot;</span> + port + <span class="string">&quot; or listening for a connection&quot;</span>);</span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>处理器类 EchoServerHandler.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoServerHandler</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Socket clientSocket;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">EchoServerHandler</span><span class="params">(Socket clientSocket)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.clientSocket = clientSocket;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> (PrintWriter out = <span class="keyword">new</span> PrintWriter(clientSocket.getOutputStream(), <span class="keyword">true</span>);</span><br><span class="line">				BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(clientSocket.getInputStream()));) &#123;</span><br><span class="line"></span><br><span class="line">			String inputLine;</span><br><span class="line">			<span class="keyword">while</span> ((inputLine = in.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">				out.println(inputLine);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>存在问题</strong>：每次接收到新的连接都要新建一个线程，处理完成后销毁线程，代价大。当有大量地短连接出现时，性能比较低。</p>
+<h2 id="改进为“阻塞I-O-线程池”模式"><a href="#改进为“阻塞I-O-线程池”模式" class="headerlink" title="改进为“阻塞I/O+线程池”模式"></a>改进为“阻塞I/O+线程池”模式</h2><p>针对上面多线程的模型中，出现的线程重复创建、销毁带来的开销，可以采用线程池来优化。每次接收到新连接后从池中取一个空闲线程进行处理，处理完成后再放回池中，重用线程避免了频率地创建和销毁线程带来的开销。</p>
+<p>主线程 ThreadPoolEchoServer.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolEchoServer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_PORT = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">			port = DEFAULT_PORT;</span><br><span class="line">		&#125;</span><br><span class="line">		ExecutorService threadPool = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">		Socket clientSocket = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> (ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(port);) &#123;</span><br><span class="line">			<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">				clientSocket = serverSocket.accept();</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// Thread Pool</span></span><br><span class="line">				threadPool.submit(<span class="keyword">new</span> Thread(<span class="keyword">new</span> EchoServerHandler(clientSocket)));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(</span><br><span class="line">					<span class="string">&quot;Exception caught when trying to listen on port &quot;</span> + port + <span class="string">&quot; or listening for a connection&quot;</span>);</span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>存在问题</strong>：在大量短连接的场景中性能会有提升，因为不用每次都创建和销毁线程，而是重用连接池中的线程。但在大量长连接的场景中，因为线程被连接长期占用，不需要频繁地创建和销毁线程，因而没有什么优势。</p>
+<p>虽然这种方法可以适用于小到中度规模的客户端的并发数，如果连接数超过 100,000或更多，那么性能将很不理想。</p>
+<h2 id="改进为“非阻塞I-O”模式"><a href="#改进为“非阻塞I-O”模式" class="headerlink" title="改进为“非阻塞I/O”模式"></a>改进为“非阻塞I/O”模式</h2><p>“阻塞I/O+线程池”网络模型虽然比”阻塞I/O+多线程”网络模型在性能方面有提升，但这两种模型都存在一个共同的问题：读和写操作都是同步阻塞的,面对大并发（持续大量连接同时请求）的场景，需要消耗大量的线程来维持连接。CPU 在大量的线程之间频繁切换，性能损耗很大。一旦单机的连接超过1万，甚至达到几万的时候，服务器的性能会急剧下降。</p>
+<p>而 NIO 的 Selector 却很好地解决了这个问题，用主线程（一个线程或者是 CPU 个数的线程）保持住所有的连接，管理和读取客户端连接的数据，将读取的数据交给后面的线程池处理，线程池处理完业务逻辑后，将结果交给主线程发送响应给客户端，少量的线程就可以处理大量连接的请求。</p>
+<p>Java NIO 由以下几个核心部分组成：</p>
+<ul>
+<li>Channel</li>
+<li>Buffer</li>
+<li>Selector</li>
+</ul>
+<p>要使用 Selector，得向 Selector 注册 Channel，然后调用它的 select()方法。这个方法会一直阻塞到某个注册的通道有事件就绪。一旦这个方法返回，线程就可以处理这些事件，事件的例子有如新连接进来，数据接收等。</p>
+<p>主线程 NonBlokingEchoServer.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NonBlokingEchoServer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_PORT = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">			port = DEFAULT_PORT;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">&quot;Listening for connections on port &quot;</span> + port);</span><br><span class="line"></span><br><span class="line">		ServerSocketChannel serverChannel;</span><br><span class="line">		Selector selector;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			serverChannel = ServerSocketChannel.open();</span><br><span class="line">			InetSocketAddress address = <span class="keyword">new</span> InetSocketAddress(port);</span><br><span class="line">			serverChannel.bind(address);</span><br><span class="line">			serverChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">			selector = Selector.open();</span><br><span class="line">			serverChannel.register(selector, SelectionKey.OP_ACCEPT);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">			ex.printStackTrace();</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				selector.select();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">				ex.printStackTrace();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			Set&lt;SelectionKey&gt; readyKeys = selector.selectedKeys();</span><br><span class="line">			Iterator&lt;SelectionKey&gt; iterator = readyKeys.iterator();</span><br><span class="line">			<span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">				SelectionKey key = iterator.next();</span><br><span class="line">				iterator.remove();</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> (key.isAcceptable()) &#123;</span><br><span class="line">						ServerSocketChannel server = (ServerSocketChannel) key.channel();</span><br><span class="line">						SocketChannel client = server.accept();</span><br><span class="line">						System.out.println(<span class="string">&quot;Accepted connection from &quot;</span> + client);</span><br><span class="line">						client.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">						SelectionKey clientKey = client.register(selector,</span><br><span class="line">								SelectionKey.OP_WRITE | SelectionKey.OP_READ);</span><br><span class="line">						ByteBuffer buffer = ByteBuffer.allocate(<span class="number">100</span>);</span><br><span class="line">						clientKey.attach(buffer);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (key.isReadable()) &#123;</span><br><span class="line">						SocketChannel client = (SocketChannel) key.channel();</span><br><span class="line">						ByteBuffer output = (ByteBuffer) key.attachment();</span><br><span class="line">						client.read(output);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (key.isWritable()) &#123;</span><br><span class="line">						SocketChannel client = (SocketChannel) key.channel();</span><br><span class="line">						ByteBuffer output = (ByteBuffer) key.attachment();</span><br><span class="line">						output.flip();</span><br><span class="line">						client.write(output);</span><br><span class="line">						</span><br><span class="line">						output.compact();</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">					key.cancel();</span><br><span class="line">					<span class="keyword">try</span> &#123;</span><br><span class="line">						key.channel().close();</span><br><span class="line">					&#125; <span class="keyword">catch</span> (IOException cex) &#123;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="改进为“异步I-O”模式"><a href="#改进为“异步I-O”模式" class="headerlink" title="改进为“异步I/O”模式"></a>改进为“异步I/O”模式</h2><p>Java SE 7 版本之后，引入了异步 I/O （NIO.2） 的支持，为构建高性能的网络应用提供了一个利器。</p>
+<p>主线程 AsyncEchoServer.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncEchoServer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEFAULT_PORT = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			port = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">			port = DEFAULT_PORT;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		ExecutorService taskExecutor = Executors.newCachedThreadPool(Executors.defaultThreadFactory());</span><br><span class="line">		<span class="comment">// create asynchronous server socket channel bound to the default group</span></span><br><span class="line">		<span class="keyword">try</span> (AsynchronousServerSocketChannel asynchronousServerSocketChannel = AsynchronousServerSocketChannel.open()) &#123;</span><br><span class="line">			<span class="keyword">if</span> (asynchronousServerSocketChannel.isOpen()) &#123;</span><br><span class="line">				<span class="comment">// set some options</span></span><br><span class="line">				asynchronousServerSocketChannel.setOption(StandardSocketOptions.SO_RCVBUF, <span class="number">4</span> * <span class="number">1024</span>);</span><br><span class="line">				asynchronousServerSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, <span class="keyword">true</span>);</span><br><span class="line">				<span class="comment">// bind the server socket channel to local address</span></span><br><span class="line">				asynchronousServerSocketChannel.bind(<span class="keyword">new</span> InetSocketAddress(port));</span><br><span class="line">				<span class="comment">// display a waiting message while ... waiting clients</span></span><br><span class="line">				System.out.println(<span class="string">&quot;Waiting for connections ...&quot;</span>);</span><br><span class="line">				<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">					Future&lt;AsynchronousSocketChannel&gt; asynchronousSocketChannelFuture = asynchronousServerSocketChannel</span><br><span class="line">							.accept();</span><br><span class="line">					<span class="keyword">try</span> &#123;</span><br><span class="line">						<span class="keyword">final</span> AsynchronousSocketChannel asynchronousSocketChannel = asynchronousSocketChannelFuture</span><br><span class="line">								.get();</span><br><span class="line">						Callable&lt;String&gt; worker = <span class="keyword">new</span> Callable&lt;String&gt;() &#123;</span><br><span class="line">							<span class="meta">@Override</span></span><br><span class="line">							<span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">								String host = asynchronousSocketChannel.getRemoteAddress().toString();</span><br><span class="line">								System.out.println(<span class="string">&quot;Incoming connection from: &quot;</span> + host);</span><br><span class="line">								<span class="keyword">final</span> ByteBuffer buffer = ByteBuffer.allocateDirect(<span class="number">1024</span>);</span><br><span class="line">								<span class="comment">// transmitting data</span></span><br><span class="line">								<span class="keyword">while</span> (asynchronousSocketChannel.read(buffer).get() != -<span class="number">1</span>) &#123;</span><br><span class="line">									buffer.flip();</span><br><span class="line">									asynchronousSocketChannel.write(buffer).get();</span><br><span class="line">									<span class="keyword">if</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">										buffer.compact();</span><br><span class="line">									&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">										buffer.clear();</span><br><span class="line">									&#125;</span><br><span class="line">								&#125;</span><br><span class="line">								asynchronousSocketChannel.close();</span><br><span class="line">								System.out.println(host + <span class="string">&quot; was successfully served!&quot;</span>);</span><br><span class="line">								<span class="keyword">return</span> host;</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;;</span><br><span class="line">						taskExecutor.submit(worker);</span><br><span class="line">					&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException ex) &#123;</span><br><span class="line">						System.err.println(ex);</span><br><span class="line">						System.err.println(<span class="string">&quot;\n Server is shutting down ...&quot;</span>);</span><br><span class="line">						<span class="comment">// this will make the executor accept no new threads</span></span><br><span class="line">						<span class="comment">// and finish all existing threads in the queue</span></span><br><span class="line">						taskExecutor.shutdown();</span><br><span class="line">						<span class="comment">// wait until all threads are finished</span></span><br><span class="line">						<span class="keyword">while</span> (!taskExecutor.isTerminated()) &#123;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				System.out.println(<span class="string">&quot;The asynchronous server-socket channel cannot be opened!&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">			System.err.println(ex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>本章例子的源码，可以在 <a target="_blank" rel="noopener" href="https://github.com/waylau/essential-java">https://github.com/waylau/essential-java</a> 中 <code>com.waylau.essentialjava.net.echo</code> 包下找到。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>只想买包辣条</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="薛浩琳 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/30/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" rel="prev" title="网络基础">
+      <i class="fa fa-chevron-left"></i> 网络基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/30/Socket/" rel="next" title="Socket">
+      Socket <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O-%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E8%BF%9B"><span class="nav-number">1.</span> <span class="nav-text">I&#x2F;O 模型的演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E"><span class="nav-number">1.1.2.</span> <span class="nav-text">阻塞和非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unix-I-O-%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">Unix I&#x2F;O 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E-I-O"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">阻塞 I&#x2F;O</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E-I-O"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">非阻塞 I&#x2F;O</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O-%E5%A4%8D%E7%94%A8%EF%BC%88%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E-I-O%EF%BC%89"><span class="nav-number">1.1.4.</span> <span class="nav-text">I&#x2F;O 复用（异步阻塞 I&#x2F;O）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%A9%B1%E5%8A%A8-I-O%EF%BC%88SIGIO%EF%BC%89"><span class="nav-number">1.1.5.</span> <span class="nav-text">信号驱动 I&#x2F;O（SIGIO）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5-I-O"><span class="nav-number">1.1.6.</span> <span class="nav-text">异步 I&#x2F;O</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D-I-O-%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.2.</span> <span class="nav-text">几种 I&#x2F;O 模型的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81-Java-I-O-%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">常见 Java I&#x2F;O 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E9%98%BB%E5%A1%9EI-O%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.4.</span> <span class="nav-text">“阻塞I&#x2F;O”模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%B8%BA%E2%80%9C%E9%98%BB%E5%A1%9EI-O-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">改进为“阻塞I&#x2F;O+多线程”模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%B8%BA%E2%80%9C%E9%98%BB%E5%A1%9EI-O-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.6.</span> <span class="nav-text">改进为“阻塞I&#x2F;O+线程池”模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%B8%BA%E2%80%9C%E9%9D%9E%E9%98%BB%E5%A1%9EI-O%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.7.</span> <span class="nav-text">改进为“非阻塞I&#x2F;O”模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E4%B8%BA%E2%80%9C%E5%BC%82%E6%AD%A5I-O%E2%80%9D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.8.</span> <span class="nav-text">改进为“异步I&#x2F;O”模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">1.9.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="薛浩琳"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">薛浩琳</p>
+  <div class="site-description" itemprop="description">世上无难事，只怕有心人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/EC-Company" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;EC-Company" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5417449202/home?wvr=5&sudaref=graph.qq.com" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5417449202&#x2F;home?wvr&#x3D;5&amp;sudaref&#x3D;graph.qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">薛浩琳</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
