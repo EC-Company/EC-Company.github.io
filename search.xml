@@ -7,12 +7,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>如何自学scala语言</title>
-    <url>/2020/09/28/%E5%A6%82%E4%BD%95%E8%87%AA%E5%AD%A6scala%E8%AF%AD%E8%A8%80/</url>
-    <content><![CDATA[<p> scala语言我觉得是除了java以外最好用的语言</p>
-]]></content>
-  </entry>
-  <entry>
     <title>AOP原来这样做&#39;</title>
     <url>/2020/09/29/AOP%E5%8E%9F%E6%9D%A5%E8%BF%99%E6%A0%B7%E5%81%9A/</url>
     <content><![CDATA[<p>1-简介<br>审计日记就是记录用户的操作记录<br>基于AOP动态代理 实现自定义审计日志注解, 并支持Spel表达式解析<br>2-实现<br>2-1 日志存储实体类<br>复制代码<br>@Data<br>@Builder<br>@ToString<br>public class AuditingLog {</p>
@@ -28,6 +22,7 @@ private String applicationName; // 调用的服务名
 
 private LocalDateTime createTime; //操作时间</code></pre>
 <p>}<br>复制代码</p>
+ <a id="more"></a>
 <p>2-2 自定义审计日志注解<br>@Documented<br>@Retention(RetentionPolicy.RUNTIME)<br>@Target({ElementType.TYPE, ElementType.METHOD})<br>public @interface AuditLog {<br>    String logInfo(); //日志信息<br>}<br>2-3 日志注解的AOP的切面<br>复制代码<br>@Aspect<br>@Component<br>public class AuditLogAOP {</p>
 <pre><code>   @Value(&quot;$&#123;spring.application.name&#125;&quot;)
 private String applicationName; //从配置文件获得服务名
@@ -96,7 +91,67 @@ public String addUser(@RequestBody User user)&#123;
   <entry>
     <title>四六级同义词替换（加分项）</title>
     <url>/2020/09/29/%E5%9B%9B%E5%85%AD%E7%BA%A7%E5%90%8C%E4%B9%89%E8%AF%8D%E6%9B%BF%E6%8D%A2%EF%BC%88%E5%8A%A0%E5%88%86%E9%A1%B9%EF%BC%89/</url>
-    <content><![CDATA[<p>1、healthy可以指代人身体健康的意思，wholesome的话更偏向于物品有益于健康这种，如果是修饰人的话更接近于健全的意思，有一点区别！<br>2、惊人的同义词里我再加一个striking吧（简单好记就是不那么高级）<br>3、improve的同义词（说近义词更好一点）如果表示有益于的话，可以用avail<br>4、solve更接近于解决的意思，而同义词里的cope with和deal with更接近于处理（不一定解决），这个也有一点点区别！<br>5、鼓舞的通过一次还可以是inspire<br>6、think的话可以替换成maintain，短语的话也可以是be convinced that<br>7、influence名词可换成effect，动词可以是affect<br>8、capacity这个词注意，他只表示能力这个词本身，比如你可以说he can go now或者he is able to go now，但是你不能说he have capacityto go now，更不能用capability，意思不一样！<br>9、职业的同义词我还能想到vocation，但是这个跟career一样，和另外三个是有一点区别der<br>10、children的话，也可以说inferior，表示晚辈，同时也有次品的意思，按需取用8<br>11、最后面的a vast number of只能修饰可数词，a vast amount of只可修饰不可数词<br>（诶？！怎么比上次打的少两条！实在想不起来廖随便补充一点8）<br>12、前面提到inferior是晚辈，所以还有peer表示平辈，以及seniority表示长辈<br>13、只修饰可数的还有quite a few，只修饰不可数的还有a great deal of，quite a little，既可修饰可数也可修饰不可数的有plenty of，a large quantity of以及a good supply of<br>13、困难障碍的话，不要再用difficulty或者trouble了！可以试试hardship，obstacle，hindrance等等<br>14、enough可以替换为sufficient，adequate，ample等等（仅表示足够的这个意思时！）<br>15、缺点：disadvantage（这个应该是最普通的？），fault（这个阔能是第二普通的？），drawback，shortcoming，defect<br>16、限制：limit→restrict，restrain，confine<br>17、各种说（say，speak，talk）：轻声说：whisper，murmur，阐明：explain，illustrate，account for ，宣布：declare，announce，claim，大喊：shout，cry out，yell，exclaim，演讲deliver a lecture<br>18、真诚：sincere，cordial，hearty，genuine，faithful<br>19、重要：important→significant，vital，crucial，considerable，essential（这个是基本的，必要的），indispensable（不可或缺的）<br>20、著名的：famous→noted，notable，famed，distinguished，reputable（声誉好的，受尊敬的）<br>21、支持：support→sustain，second，back<br>22、相似的：similar→alike，semblable，analogical（同理相似的动词resemble，相似或者说类比的名词analogy）<br>23、推测：guess→gather，speculate，conjecture<br>这些都是比较常见的词8，虽然替换词能加分，但 一 定 一 定 一 定 要事先挑好一两个你要用来替换的词，只背这一两个，然后弄清楚他的意思，绝对不能用错！不然扣分很严重！（虽然没有考过六级但以前其他考试都是这样的！）<br>祝我们四六级都考好！<br>24、大概这个词，probably、possibly、maybe→presumably、approximately<br>25、商品：things→（日用daily→routine）merchandise、commodity、ware<br>26、恭维、称赞：praise→compliment<br>27、致意：treat→hail、greet（salute表示行军礼）<br>28、深刻的：deep→profound<br>29、（研究、调查等）显示、反应、表明：show→reveal、reflect、mirror、dedicate（指出）<br>30、之前的缺点还有deficiency、flaw、scarcity<br>31、誓言：swear→vow、pledge、oath<br>32、请求：request、ask、beg→plea（n.）petition（n.&amp;vt.）<br>33、反对：disagree→oppose、object to、protest<br>34、极大的：big、large、vast→supreme、tremendous、overwhelming、massive、drastical、substantial、enormous（这里一定要弄清意思再用！）<br>35、各种优秀的杰出的精彩的等等：brilliant、magnificent、remarkable、superb、splendid、distinguished、wonderful、breathtaking、stunning、fantastic、unexceptionable、marvelous、extraordinary、outstanding、eminent<br>36、5G：the 5th generation wireless systems；垃圾分类：garbage classification；传统文化：traditional culture；文化自信：culture confidence<br>okk啦！我比较喜欢36这个数字，就到此为止8~<br>还是那句话，一定要先查清意思再去使用哦~<br>大家一起冲冲冲！四六级加油！</p>
+    <content><![CDATA[<p>1、healthy可以指代人身体健康的意思，wholesome的话更偏向于物品有益于健康这种，如果是修饰人的话更接近于健全的意思，有一点区别！<br>2、惊人的同义词里我再加一个striking吧（简单好记就是不那么高级）<br>3、improve的同义词（说近义词更好一点）如果表示有益于的话，可以用avail</p>
+<a id="more"></a>
+<p>4、solve更接近于解决的意思，而同义词里的cope with和deal with更接近于处理（不一定解决），这个也有一点点区别！<br>5、鼓舞的通过一次还可以是inspire<br>6、think的话可以替换成maintain，短语的话也可以是be convinced that<br>7、influence名词可换成effect，动词可以是affect<br>8、capacity这个词注意，他只表示能力这个词本身，比如你可以说he can go now或者he is able to go now，但是你不能说he have capacityto go now，更不能用capability，意思不一样！<br>9、职业的同义词我还能想到vocation，但是这个跟career一样，和另外三个是有一点区别der<br>10、children的话，也可以说inferior，表示晚辈，同时也有次品的意思，按需取用8<br>11、最后面的a vast number of只能修饰可数词，a vast amount of只可修饰不可数词<br>（诶？！怎么比上次打的少两条！实在想不起来廖随便补充一点8）<br>12、前面提到inferior是晚辈，所以还有peer表示平辈，以及seniority表示长辈<br>13、只修饰可数的还有quite a few，只修饰不可数的还有a great deal of，quite a little，既可修饰可数也可修饰不可数的有plenty of，a large quantity of以及a good supply of<br>13、困难障碍的话，不要再用difficulty或者trouble了！可以试试hardship，obstacle，hindrance等等<br>14、enough可以替换为sufficient，adequate，ample等等（仅表示足够的这个意思时！）<br>15、缺点：disadvantage（这个应该是最普通的？），fault（这个阔能是第二普通的？），drawback，shortcoming，defect<br>16、限制：limit→restrict，restrain，confine<br>17、各种说（say，speak，talk）：轻声说：whisper，murmur，阐明：explain，illustrate，account for ，宣布：declare，announce，claim，大喊：shout，cry out，yell，exclaim，演讲deliver a lecture<br>18、真诚：sincere，cordial，hearty，genuine，faithful<br>19、重要：important→significant，vital，crucial，considerable，essential（这个是基本的，必要的），indispensable（不可或缺的）<br>20、著名的：famous→noted，notable，famed，distinguished，reputable（声誉好的，受尊敬的）<br>21、支持：support→sustain，second，back<br>22、相似的：similar→alike，semblable，analogical（同理相似的动词resemble，相似或者说类比的名词analogy）<br>23、推测：guess→gather，speculate，conjecture<br>这些都是比较常见的词8，虽然替换词能加分，但 一 定 一 定 一 定 要事先挑好一两个你要用来替换的词，只背这一两个，然后弄清楚他的意思，绝对不能用错！不然扣分很严重！（虽然没有考过六级但以前其他考试都是这样的！）<br>祝我们四六级都考好！<br>24、大概这个词，probably、possibly、maybe→presumably、approximately<br>25、商品：things→（日用daily→routine）merchandise、commodity、ware<br>26、恭维、称赞：praise→compliment<br>27、致意：treat→hail、greet（salute表示行军礼）<br>28、深刻的：deep→profound<br>29、（研究、调查等）显示、反应、表明：show→reveal、reflect、mirror、dedicate（指出）<br>30、之前的缺点还有deficiency、flaw、scarcity<br>31、誓言：swear→vow、pledge、oath<br>32、请求：request、ask、beg→plea（n.）petition（n.&amp;vt.）<br>33、反对：disagree→oppose、object to、protest<br>34、极大的：big、large、vast→supreme、tremendous、overwhelming、massive、drastical、substantial、enormous（这里一定要弄清意思再用！）<br>35、各种优秀的杰出的精彩的等等：brilliant、magnificent、remarkable、superb、splendid、distinguished、wonderful、breathtaking、stunning、fantastic、unexceptionable、marvelous、extraordinary、outstanding、eminent<br>36、5G：the 5th generation wireless systems；垃圾分类：garbage classification；传统文化：traditional culture；文化自信：culture confidence<br>okk啦！我比较喜欢36这个数字，就到此为止8~<br>还是那句话，一定要先查清意思再去使用哦~<br>大家一起冲冲冲！四六级加油！</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Eclipse中创建项目</title>
+    <url>/2020/09/30/Eclipse%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>第一步：首先导入前面命令行建立的两个maven项目Hello和HelloFriend。<br>方法：选择file–&gt;import–&gt;Existing MAVEN PROJECTS选项选择对应项目路径导入即可<br>第二步：按顺序先后执行Hello和HelloFriend项目的的构建</p>
+<a id="more"></a>
+<p>方法：右击各自项目pom.xml文件，选择run as中的maven install命令将构件安装至仓库中<br>第三步：通过eclipse新建第三个maven项目。选择file–&gt;new–&gt;other–&gt;MAVEN PROJECT选项<br>第四步：在src/main/java中新建文件cn.itcast.maven.MakeFriends.java<br>package cn.itcast.maven;<br>public class MakeFriends {<br>public String makeFriends(String name){</p>
+<pre><code>HelloFriend friend = new HelloFriend();
+friend.sayHelloToFriend(&quot;litingwei&quot;);   
+String str = &quot;Hey,&quot;+friend.getMyName()+&quot; make a friend please.&quot;;
+System.out.println(str);
+return str;</code></pre>
+<p>}<br>}<br>第五步：在src/test/java中新建文件cn.itcast.maven.MakeFriendsTest.java<br>package cn.itcast.maven;<br>import static junit.framework.Assert.assertEquals;<br>import static org.junit.Assert.*;<br>import org.junit.Test;<br>public class MakeFriendsTest {<br>@Test<br>public void testMakeFriends(){<br>    MakeFriends makeFriend = new MakeFriends();<br>    String str = makeFriend.makeFriends(“litingwei”);<br>    assertEquals(“Hey,John make a friend please.”,str);<br>}<br>}<br>第六步：点击根目录pom.xml添加依赖<br> <dependencies><br>    <dependency><br>        <groupId>junit</groupId><br>        <artifactId>junit</artifactId><br>        <version>4.9</version><br>        <scope>test</scope><br>    </dependency><br>    <dependency><br>        <groupId>cn.itcast.maven</groupId><br>        <artifactId>HelloFriend</artifactId><br>        <version>0.0.1-SNAPSHOT</version><br>        <type>jar</type><br>        <scope>compile</scope><br>  </dependency><br> </dependencies><br>第七步：右击pom.xml选择run as 中的命令执行即可</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Eclipse中创建web项目</title>
+    <url>/2020/09/30/Eclipse%E4%B8%AD%E5%88%9B%E5%BB%BAweb%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>第一步：<br>创建maven web工程<br>第二步:<br>继承parent</p>
+<a id="more"></a>
+<p>修改pom.xml文件如下<br>4.0.0<br>cn.itcast.maven<br>web<br>war<br>web Maven Webapp<br><a href="http://maven.apache.org/">http://maven.apache.org</a><br>第三步：<br>建立测试jsp<br>&lt;%@ page language=”java” contentType=”text/html; charset=UTF-8”<br>pageEncoding=”UTF-8”%&gt;<br>&lt;%@ page import=”cn.itcast.maven.MakeFriends.*”%&gt;<br>&lt;%<br>MakeFriends makeFriends=new MakeFriends();<br>out.println(makeFriends.makeFriends(“wanglipeng”));<br>%&gt;<br>第四步：<br>自动部署到tomcat下面<br>web<br>org.codehaus.cargo<br>cargo-maven2-plugin<br>1.2.3<br>tomcat5x<br>D:/Program Files/Apache Software Foundation/Tomcat 5.0<br>existing<br>D:/Program Files/Apache Software Foundation/Tomcat 5.0<br>cargo-run<br>install<br>run</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>spark电子书</title>
+    <url>/2020/09/30/spark%E7%94%B5%E5%AD%90%E4%B9%A6/</url>
+    <content><![CDATA[<p><a href="http://dblab.xmu.edu.cn/blog/spark/%C2%B7">http://dblab.xmu.edu.cn/blog/spark/·</a><br>Scala Range<br>在执行for循环时，我们经常会用到数值序列，比如，i的值从1循环到5，这时就可以采用Ra</p>
+<a id="more"></a>
+<p>在创建Range时，需要给出区间的起点和终点以及步长（默认步长为1）。下面通过几个实例来介绍：<br>（1）创建一个从1到5的数值序列，包含区间终点5，步长为1<br>scala&gt; 1 to 5<br>res0: scala.collection.immutable.Range.Inclusive = Range(1, 2, 3, 4, 5)<br>scala<br>之前我们已经介绍过，在Scala中允许对“字面量”直接执行方法，所以，上面的代码，也可以用下面的代码来实现：<br>scala&gt; 1.to(5)<br>res0: scala.collection.immutable.Range.Inclusive = Range(1, 2, 3, 4, 5)<br>scala<br>（2）创建一个从1到5的数值序列，不包含区间终点5，步长为1<br>scala&gt; 1 until 5<br>res1: scala.collection.immutable.Range = Range(1, 2, 3, 4)<br>scala<br>（3）创建一个从1到10的数值序列，包含区间终点10，步长为2<br>scala&gt; 1 to 10 by 2<br>res2: scala.collection.immutable.Range = Range(1, 3, 5, 7, 9)<br>scala<br>（4）创建一个Float类型的数值序列，从0.5f到5.9f，步长为0.8f<br>scala&gt; 0.5f to 5.9f by 0.8f<br>res3: scala.collection.immutable.NumericRange[Float] = NumericRange(0.5, 1.3, 2.1, 2.8999999, 3.6999998, 4.5, 5.3)<br>Scala解释器= scalaREPL<br>3种运行的方式（针对Sn求级数和）<br>1.一句一句实现在repl中  逻辑上的一行<br>2.脚本文件 test1.scala存放不带有对象和main的所有代码 ，load运行<br>3.脚本文件 test2scala，存放带有对象和main的所有代码，编译scalac打包java\scala运行</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>第一个maven项目</title>
+    <url>/2020/09/30/%E7%AC%AC%E4%B8%80%E4%B8%AAmaven%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>第一步. 首先建立Hello项目同时建立Maven约定的目录结构<br>Hello</p>
+<a id="more"></a>
+<p>–src<br>—–main<br>———-java<br>———-resources<br>—–test<br>———java<br>———resources<br>–pom.xml<br>第二步：在项目Hello根目录建立pom.xml<br><dependencies><br>    <dependency><br>        <groupId>junit</groupId><br>        <artifactId>junit</artifactId><br>        <version>4.9</version><br>        <scope>test</scope><br>    </dependency>       </p>
+</dependencies>
+第三步：在src/main/java/cn/itcast/maven目录下新建文件Hello.java
+package cn.itcast.maven;
+public class Hello {
+public String sayHello(String name){
+    return "Hello "+name+"!";
+}
+}
+第四步：在/src/test/java/cn/itcast/maven目录下新建测试文件HelloTest.java
+package cn.itcast.maven;
+import org.junit.Test;
+import static junit.framework.Assert.*;
+public class HelloTest {
+@Test
+public void testHello(){
+
+<pre><code>Hello hello = new Hello();
+String results = hello.sayHello(&quot;litingwei&quot;);
+assertEquals(&quot;Hello litingwei!&quot;,results);       </code></pre>
+<p>}<br>}<br>第五步：<br>a)打开cmd命令行，进入Hello项目根目录执行 mvn compile命令，查看根目录变化<br>b)cmd 中继续录入mvn clean命令，然后再次查看根目录变化<br>c)cmd 中录入 mvn clean compile命令, 查看根目录变化<br>d)cmd 中录入 mvn clean test命令，查看根目录变化<br>e)cmd 中录入 mvn clean package命令,查看根目录变化</p>
 ]]></content>
   </entry>
 </search>
