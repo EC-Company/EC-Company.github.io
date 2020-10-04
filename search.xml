@@ -1900,4 +1900,40 @@ Files.copy(source, target, REPLACE_EXISTING);</code></pre>
 Files.move(source, target, REPLACE_EXISTING);</code></pre>
 <h2 id="管理元数据（文件和文件存储的属性）"><a href="#管理元数据（文件和文件存储的属性）" class="headerlink" title="管理元数据（文件和文件存储的属性）"></a>管理元数据（文件和文件存储的属性）</h2><h2 id="阅读，写作，和创建文件"><a href="#阅读，写作，和创建文件" class="headerlink" title="阅读，写作，和创建文件"></a>阅读，写作，和创建文件</h2><h2 id="随机访问文件"><a href="#随机访问文件" class="headerlink" title="随机访问文件"></a>随机访问文件</h2><h2 id="创建和读取目录"><a href="#创建和读取目录" class="headerlink" title="创建和读取目录"></a>创建和读取目录</h2><h2 id="链接，符号或否则"><a href="#链接，符号或否则" class="headerlink" title="链接，符号或否则"></a>链接，符号或否则</h2><h2 id="走在文件树"><a href="#走在文件树" class="headerlink" title="走在文件树"></a>走在文件树</h2><h2 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h2><h2 id="看目录的更改"><a href="#看目录的更改" class="headerlink" title="看目录的更改"></a>看目录的更改</h2><h2 id="其他有用的方法"><a href="#其他有用的方法" class="headerlink" title="其他有用的方法"></a>其他有用的方法</h2><h2 id="传统的文件I-O代码"><a href="#传统的文件I-O代码" class="headerlink" title="传统的文件I/ O代码"></a>传统的文件I/ O代码</h2>]]></content>
   </entry>
+  <entry>
+    <title>Scala编程练习</title>
+    <url>/2020/10/04/Scala%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<p>一、实验名称<br>Scala编程练习<br>二、实验目的</p>
+<a id="more"></a>
+<p>1.掌握Scala语言的基本语法、数据结构和控制结构；<br>2.掌握面向对象编程的基础知识，能够编写自定义类和特质；<br>3.掌握函数式编程的基础知识，能够熟练定义匿名函数。熟悉Scala的容器类库的基本层次结构，熟练使用常用的容器类进行数据；<br>4.熟练掌握Scala的REPL运行模式和编译运行方法。<br>三、实验平台<br>已经配置完成的Scala开发环境。Scala版本为2.11.8.</p>
+<p>四、实验内容与结果分析</p>
+<ol>
+<li>计算级数<br>请用脚本的方式编程计算并输出下列级数的前n项之和Sn，直到Sn刚好大于或等于q为止，其中q为大于0的整数，其值通过键盘输入。</li>
+</ol>
+<p>例如，若q的值为50.0，则输出应为：Sn=50.416695。请将源文件保存为exercise2-1.scala，在REPL模式下测试运行，测试样例：q=1时，Sn=2；q=30时，Sn=30.891459；q=50时，Sn=50.416695。<br>要求：使用三种方式完成<br>①repl环境下一行一句运行<br>②脚本文件test1.scala存放不带有对象和main的所有代码，在REPL中:load运行<br>③脚本文件test2.scala，存放带有对象和main的所有代码，在Linux Shell中编译scalac，打包java\scala运行</p>
+<p>2 使用scala语言编程输出九九乘法表</p>
+<ol start="3">
+<li>统计List列表中中单词出现的频率，例如：<br>val list1=List(“I am a student”,” love database”,”Hadoop is good”,”spark is good”)<br>输出结果为：键值对形式输出。</li>
+</ol>
+<p>4 统计学生成绩（教材P73）</p>
+<p>四、心得体会<br>     通过这次实验我学会了：</p>
+<ol>
+<li>统计单词出现的频率用可变包import collection.mutable.Map 方便之后加入更多的键值对。</li>
+<li>用flatMap拍扁映射操作可以把list1中的句子分割成一个一个的单词，其方法体中应该为{a=&gt;a.split(“ ”)},我在做的时候一直没有理解对split函数的意思，导致出现了如上图所示的错误做法，后面通过问同学后及时更正。</li>
+<li>用var m=Map.empty[String,Int]先定义，然后函数val f:String=&gt;Unit={w=&gt;if(m.contains(某个字母)) m(某个字母)+=1 else m(某个字母) =1}</li>
+<li>：load -v 文件名 是在scala环境下运行的，之前一直在家目录下运行，发现没有用。</li>
+</ol>
+<ol start="5">
+<li><p>用FileZilla这款软件的时候，发现站点管理器中的IP地址不对时，用ifconfig指令进行查询即可。 </p>
+</li>
+<li><p>20.10.8</p>
+</li>
+<li><p>单词一定要拼写正确，可以免去很多不必要的错误，节省大量的时间。</p>
+</li>
+<li><p>用xrandr -s 1280x800调整ubuntu界面大小</p>
+</li>
+</ol>
+<p>注：以上内容将发布到<a href="https://ec-company.github.io/%E6%88%91%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%AD%E3%80%82">https://ec-company.github.io/我自己的博客中。</a></p>
+]]></content>
+  </entry>
 </search>
