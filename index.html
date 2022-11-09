@@ -215,10 +215,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-19 09:31:33 / 修改时间：09:39:42" itemprop="dateCreated datePublished" datetime="2021-01-19T09:31:33+08:00">2021-01-19</time>
+              <time title="创建时间：2021-01-19 09:31:33" itemprop="dateCreated datePublished" datetime="2021-01-19T09:31:33+08:00">2021-01-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-09 11:34:20" itemprop="dateModified" datetime="2022-11-09T11:34:20+08:00">2022-11-09</time>
+              </span>
 
           
 
@@ -232,360 +238,14 @@
 
       
           <p>文章目录</p>
-<pre><code>1 SpringBoot入门
-2 SpringBoot基础配置
-    2.2 @Spring BootApplication
-    2.3 定制banner
-    2.4 Web容器配置
-        2.4.1 Tomcat配置
-    2.5 Properties配置
-    2.7 YAML配置
-        2.7.2 复杂配置
-    2.8 Profile
-3 Spring Boot整合视图层技术
-    3.1 整合Thymeleaf
-4 Spring Boot整合Web开发
-    4.1 返回Json数据
-        4.1.1 默认实现
-            对于第一个问题
-            对于第二个问题
-        4.1.2 自定义转换器
-    4.2 静态资源访问
-        4.2.2 自定义测录
-    4.3 文件上传
-        4.3.1 单文件上传
-    4.4 @ControllerAdvice
-    4.5 定义错误页
-    4.6 CORS支持
-    4.7 配置类与XML配置
-    4.8 注册拦截器
-    4.9 启动系统任务
-    4.10 整合Servlet、Filter和Listener
-    4.11 路径映射
-    4.12 配置AOP
-        4.12.1 AOP简介
-    4.13 其他
-        4.13.1 自定义欢迎页
-        4.13.2 自定义favicon
-        4.13.3 除去某个自动配置
-5 SpringBoot整合持久层技术
-    5.1 整合JdbcTemplate
-    5.2 整合MyBatis
-        1.创建数据库和表
-        2.创建项目
-        3.数据库配置
-            4.创建实体类Book
-        5.创建数据库访问层(Access)
-    5.3 整合SpringData JPA
-    5.4 多数据源
-6 Spring Boot整合NoSQL
-7 构建RestFul服务
-    7.1 Rest简介
-    7.2 JPA实现REST
-    7.3 MongoDB实现REST
-8 开发者工具和单元测试
-9 SpringBoot缓存
-10 Springboot安全管理
-11 Springboot整合WebSocket
-    11.2 WebSocket简介
-    11.3 SpringBoot整合WebSocket
-    11.4 小结
-12 消息服务
-13 企业开发
-    13.1 邮件发送
-    13.2 定时任务
-    13.4 Swagger 2
-        13.4.1 Swagger2简介
-    13.5 数据校验
-        13.5.1 普通校验
-        13.5.2 分组校验
-14 应用监控
-15 项目构建和部署
-    15.1 JAR
-        15.1.1 项目打包
-        15.1.2 项目运行
-        15.1.3 创建可依赖的JAR
-        15.1.4 文件排除
-    15.2 WAR
-16 微人事项目实战
-    16.1 项目简介
-    16.2 技术架构
-        16.2.2 Vue简介
-        16.2.2 Element简介
-        16.2.3 其他
-    16.3 项目构建
-        16.3.1 前端项目构建
-        16.3.2 后端项目构建
-        16.4.2 前端实现
-            1.引入Element和Axios
-            2.开发Login页面
-            3.配置路由
-            4.配置请求转发
-        16.5.1 后端接口实现
-        16.5.2 前端实现
-    16.6 员工资料模板
-        16.6.1 后端接口实现
-        16.6.2 前端实现
-    16.7 配置邮件发送
-    16.8 员工资料导出
-    16.9 员工资料导入
-        16.9.1 后端接口实现
-        16.9.2 前端实现
-    16.10 在线聊天
-    16.11 前端项目打包</code></pre>
-<p>1 SpringBoot入门<br>2 SpringBoot基础配置</p>
-<p>在pom.xml文件中添加依赖之前需要先添加spring-boot-starter-parent. spring-boot-starter-parent主要提供了如下默认配置</p>
-<pre><code>Java版本默认使用1.8
-编码格式默认使用UTF-8
-提供Dependency Management进行项目依赖的版本管理
-默认的资源过滤与插件配置</code></pre>
-<p>2.2 @Spring BootApplication</p>
-<p>@Spring BootApplication注解是加在项目的启动类上的。</p>
-<p>@Spring BootApplication实际上是一个组合注解,这个注解有由3个注解组成</p>
-<pre><code>@Spring BootConfiguration
-
-表明这是一个配置类，开发者可以在这个类中配置Bean。从这个角度讲，这个类所扮演的角色有点类似于Spring中的applicationContext.xml文件中的角色。
-
-@EnableAutoConfiguration
-
-表示开启自动化配置。
-
-@ComponentScan
-
-完成包扫描，也是Spring中的功能。由于@ComponentScan注解默认扫描的类都位于当前类所在包的下面，因此建议在实际项目开发中把项目启动类放在根包中。
-
-image-20190418145105790
-
-虽然项目的启动类也包含@Configuration注解，但是开发者可以创建一个新的类专门用来配置Bean,这样便于配置的管理。这个类只需要加上@Configuration注解即可。代码如下：
-
-@Configuration
-public class MyConfig&#123;
-
-
-
-项目启动类中的@ComponentScan注解，除了扫描@Service，@Repository,@Component,@Controller和@RestController等之外，也会扫描@Configuration注解的类。</code></pre>
-<p>2.3 定制banner</p>
-<p>Spring Boot项目在启动时会打印一个banner</p>
-<p>image-20190418150153252</p>
-<p>这个banner是可以定制的。具体定制的方法可以参考原著。</p>
-<p>但是想关闭banner也是可以的，修改项目启动类的main方法，代码如下：</p>
-<p>public static void main(String…args)<br>{<br>   SpringApplicationBuilder builder = new SpringApplicationBuilder(Chapter012Application.class);<br>        builder.bannerMode(Banner.Mode.OFF).run(args);<br>}</p>
-<p>通过SpringApplicationBuilder来设置bannerMode为OFF，这样启动时banner就消失了。<br>2.4 Web容器配置<br>2.4.1 Tomcat配置</p>
-<p>在Spring Boot项目中，可以内置Tomcat等容器。当开发者添加了spring-boot-starter-web依赖之后，默认为使用Tomcat作为Web容器。如果需要对Tomcat做进一步的配置，可以在application.properties中进行配置。</p>
-<p>server.port = 8081 // 配置了Web容器的端口号<br>server.error.path = /error # 配置了当项目出错时跳转去的页面<br>server.servlet.session.timeout = 30m<br>server.servlet.context-path = /chapter02 #表示项目名称，不配置时默认为/。如果配置了，就要在访问路径中加上配置的路径<br>server.tomcat.uri-encoding = utf-8<br>server.tomcat.max-threads = 500<br>server.tomcat.basedir = /home/sang/tmp</p>
-<p>2.5 Properties配置</p>
-<p>在实际项目中不可避免会有一些需要自己手动配置，承载这些自定义配置的文件就是resources目录下的application.properties文件。(也可以使用YAML配置来替代application.properties)配置。</p>
-<p>Spring Boot项目中的application.properties配置文件一共可以出现在如下4个位置</p>
-<pre><code>项目根目录下的config文件夹中
-项目根目录下
-classpath(也就是resources文件夹）下的config文件夹中
-classpath下</code></pre>
-<p>如果这4个位置都有application.properties文件，那么加载的优先级从1到4依次降低。</p>
-<p>image-20190418161317675</p>
-<p>SpringBoot将按照这个优先级查找配置信息，并加载到Spring Environment中。</p>
-<p>Spring提供了@Value注解以及EnvironmentAware接口来将Spring Environment中的数据注入到属性中，SpringBoot对此进一步提出了类型安全配置属性(Type-safe Configuration Properties)</p>
-<p>这样即使在数据量非常庞大的情况下，也可以更加方便地将配置文件中的数据注入到Bean中。考虑在appliation.properties中添加如下一段配置。</p>
-<p>book.name = 三国演义<br>book.author = 罗贯中<br>book.price = 30</p>
-<p>将这一段配置数据注入如下Bean中：</p>
-<p>@Component<br>@ConfigurationProperties(prefix = “book”) //描述了要加载的配置文件的前缀<br>public class Book{<br>  private String name;<br>  private String author;<br>  private Float price;<br>  //省略getter/setter<br>}</p>
-<p>其他的请参考原书<br>2.7 YAML配置</p>
-<p>YAML是JSON的超集，是一种专门用来写配置文件的语言，可以替代application.</p>
-<p>YAM使用简单，利用缩进表示层级关系，大小写敏感。</p>
-<p>在Spring Boot项目中使用YAML只需要在resouces目录下创建一个application.yml文件即可，然后向application.yml中添加如下配置。</p>
-<p>server:<br>    port:80<br>    servlet:<br>        context-path:/chapter02<br>    tomcat:<br>        uir-encoding:utf-8</p>
-<p>这一段配置等效于application.properties中的如下配置</p>
-<p>server.port = 80<br>server.servlet.context-path = /chpater02<br>server.tomcat.uri-encoding = utf-8</p>
-<p>此时可以将resources目录下的application.properties文件删除，完全使用YAML完成文件的配置。<br>2.7.2 复杂配置</p>
-<p>YAML不仅可以配置常规属性，也可以配置复杂属性</p>
-<p>在Spring Boot中使用YAML虽然方便，但是YAML也有一些缺陷，例如无法使用@PropertySource注解加载YAML文件。如果项目中有这些需求，还是需要使用Properties的配置文件。<br>2.8 Profile</p>
-<p>开发者在项目发布之前，一般需要频繁地在开发环境、测试环境以及生产环境之间进行切换，这个时候需要大量的配置需要频繁更改。例如数据库配置,redis配置，mongodb配置等。频繁修改带来了巨大的工作量，Spring对此提供了解决方案(@Profile注解)，SpringBoot则更进一步提供了更加简洁的解决方案，SpringBoot中约定的不同环境下配置文件名称规则为application-{profile}.properties，profile占位符表示当前环境的名称。暂不研究。<br>3 Spring Boot整合视图层技术</p>
-<p>在目前的企业级应用开发中，前后端分离是趋势，但是视图层技术还占有一席之地。SpringBoot对视图层技术提供了很好的支持，官方推荐使用的模板引擎是Thymeleaf,jsp技术不推荐。<br>3.1 整合Thymeleaf</p>
-<p>Thymeleaf是新一代java模板引擎，与传统Java模板引擎不同的是，Thymeleaf支持HTML原型，既可以让前端工程师在浏览器中直接打开查看样式，也可以让后端工程师结合真实数据查看显示效果。同时，Spring Boot提供了Thymeleaf自动化配置解决方案。<br>4 Spring Boot整合Web开发<br>4.1 返回Json数据<br>4.1.1 默认实现</p>
-<p>JSON是目前主流的前后端数据传输方式。<br>例如，现在有一个实体类Book实体类：</p>
-<p>public class Book{<br>    private String name;<br>    private String author;<br>    @JsonIgnore<br>    private Float price;<br>    @JsonFormat(pattern = “yyyy-MM-dd”)<br>    private Date publicationDate;</p>
-<p>然后创建BookController，返回Book对象即可。</p>
-<p>@Controller<br>public class BookController{<br>    @GetMapping(“/book”)<br>    @ResponseBody<br>    public Book book(){<br>        Book book = new Book();<br>        book.setAuthor(“Luo Guanzhong”)<br>        book.setName(“San Guo Yan Yi”);<br>        book.setPrice(30f);<br>        book.setPublicationDate(new Date());<br>        return book;<br>    }</p>
-<p>@Controller注解表示这个类BookController是一个控制器。<br>@ResponseBody表明会将book()方法的返回值转化为json字符串。@ResponseBody注解仅仅能够用在@Controller注解的类中。<br>当我们运行springboot后端项目后，我们在浏览器中输入地址htt://localhost:8080/book<br>我们就会在浏览器的界面看到json数据，如下图所示：<br>json数据<br>可以看到，这个json文件存在3个key, 3个value,有同学就要问了，为什么Book中有4个属性，现在只有3个key？因为在Book类的定义中price属性被@JsonIgnore给注解了，所以json中就没有这个key了，前端拿到的json数据中也就没有这个key了。</p>
-<p>对于前后端分离的项目来说，后端只需要负责提供数据，因此@Controller注解的类中的所有方法都是返回数据的，都需要转换成json格式（如果前后端是以json来交换数据的话）。那么就需要再每个方法的前面添加注解@ResponseBody，就很烦呀。<br>所以我们就可以将@Controller和@ResponseBody这两个注解合并起来写，写成@RestController。</p>
-<p>那有同学要问了？为什么我方法的返回值是一个Book类，从Book类编程json数据，是谁来完成的呢？这中间是怎么对应的呢？<br>对于第一个问题</p>
-<p>SpringMVC中使用消息转换器HttpMessageConverter对JSON的转换提供了很好的支持，在Spring Boot中，只需要添加Web依赖即</p>
-  <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-
-<p>这个依赖中默认加入了jackson-databind作为JSON处理器，此时不需要添加额外的JSON处理器就能返回一段JSON了。<br>对于第二个问题</p>
-<p>我还没有搞清楚。至少从这个例子中，我们可以看出，一个类编程了一个json对象。java对象的属性成了json对象的key,java对象的属性值成了json对象的value字符串.<br>4.1.2 自定义转换器</p>
-<p>springboot默认有消息转换器jackson-databind，如果我们有一些特殊的需求jackson-databind满足不了，我们可以自定义我们想要的消息转换器。但是一般都是可以满足我们的需求的，我们就不需要自定义了。</p>
-<p>暂不研究。<br>4.2 静态资源访问</p>
-<p>在Spring MVC中，对于静态资源都需要开发者手动配置静态资源过滤。Spring Boot中对此也提供了自动化配置，可以简化静态资源过滤配置。</p>
-<p>细节的去看书。我这里只讲解重要的结论：</p>
-<p>SpringBoot默认会过滤所有的静态资源，而静态资源的配置一共有5个，分别是classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/, classpath:/public/以及/，也就是说，开发者可以将静态资源放到这5个位置中的任意一个。5个静态资源位置的优先级依次降低。但是一般情况下，Spring Boot项目不需要Webapp目录，所以第5个”/“可以暂时不考虑。</p>
-<p>image-20190418191551704</p>
-<p>此时，如果在浏览器中输入”<a target="_blank" rel="noopener" href="http://localhost:8080/p1.png&quot;%EF%BC%8C%E5%8D%B3%E5%8F%AF%E7%9C%8B%E5%88%B0classpath:/META-INF/resources/%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84p1.png%E3%80%82%E5%A6%82%E6%9E%9C%E5%B0%86classpath:/META-INF/resources/%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84p1.png%E5%88%A0%E9%99%A4%EF%BC%8C%E5%B0%B1%E4%BC%9A%E8%AE%BF%E9%97%AE%E5%88%B0classpath:/resources/%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84p1.png">http://localhost:8080/p1.png&quot;，即可看到classpath:/META-INF/resources/目录下的p1.png。如果将classpath:/META-INF/resources/目录下的p1.png删除，就会访问到classpath:/resources/目录下的p1.png</a></p>
-<p>如果开发者使用Intellij IDEA创建Spring Boot项目，就会默认创建出classpath:/static/目录，静态资源一般放在这个目录下即可。<br>4.2.2 自定义测录</p>
-<p>暂不研究<br>4.3 文件上传</p>
-<p>Java中的文件上传一共涉及两个组件，</p>
-<pre><code>CommonsMultipartResolver
-
-使用commons-fileupload来处理multipart请求
-
-StandardServletMultipartResolver
-
-基于Servlet 3.0来处理multipart请求</code></pre>
-<p>因此，若使用StandardServletMultipartResolver，则不需要添加额外的Jar包。在SpringBoot提供的文件上传自动化配置类MultipartAutoConfiguration中，默认也是采用StandardServletMulipartResolver. 所以，在Springboot中上传文件甚至可以做到零配置。<br>4.3.1 单文件上传<br>4.4 @ControllerAdvice</p>
-<p>暂不研究<br>4.5 定义错误页</p>
-<p>在处理异常时，开发者可以根据实际情况返回不同的页面，但是这种异常处理方式一般用来处理应用级别的异常，有一些容器级别的错误就处理不了。</p>
-<p>在Spring Boot中，默认情况下，如果用户在发起请求时发生了404错误，Spring Boot会有一个默认的页面展示给用户。</p>
-<p>image-20190419074237938</p>
-<p>看status就可以了</p>
-<p>同理，如果发生了500错误,status = 500</p>
-<p>自定义错误页暂未研究<br>4.6 CORS支持</p>
-<p>CORS(Cross-Origin Resource Sharing)是由W3C制定的一种跨域资源共享技术标准。其目的就是为了解决前端的跨域请求。</p>
-<p>在JavaEE开发中，最常见的前端跨域请求解决方案是JSONP,但是JSONP只支持GET请求，这是一个很大的缺陷，而CORS则支持多种HTTP请求方法。</p>
-<p>无论是简单请求，还是需要先进行探测的请求，前端的写法都是不变的，额外的处理都是在服务器端来完成的。 在传统的Java EE开发中，可以通过过滤器统一配置，而Spring Boot中对此则提供了更加简洁的解决方案。</p>
-<p>后期更新<br>4.7 配置类与XML配置</p>
-<p>SpringBoot推荐使用Java来完成相关的配置工作。在项目中，不建议将所有的配置放在一个配置类中，可以根据不同的请求提供不同的配置类。</p>
-<p>这些配置类都需要添加@Configuration注解</p>
-<p>@ComponentScan注解会扫描所有的Spring组件，也包括@Configruation。</p>
-<p>@ComponentScan在项目入中的@SpringBootApplication注解中已经提供，因此在实际项目中只需要按需提供相关的配置类即可。<br>4.8 注册拦截器</p>
-<p>暂不研究<br>4.9 启动系统任务</p>
-<p>暂不研究<br>4.10 整合Servlet、Filter和Listener</p>
-<p>一般情况下，使用Spring、SpringMVC这些框架之后，基本上就告别Servlet,Filter以及Listener了，但是有时在整合一些第三方框架时，可能还是不得不使用Servlet。比如在整合某报表插件时，就需要使用Servlet。SpringBoot对于整合这些基本的Web组件也提供了良好的支持。<br>4.11 路径映射</p>
-<p>一般情况下，使用了页面模板之后，用户需要通过控制器才能访问页面。有一些页面只需要在控制中加载数据，然后渲染，才能显示出来；还有一些页面在控制器中不需要加载数据，只是完成简单的跳转，对于这种页面，可以直接配置路径映射，提高访问速度。</p>
-<p>例如，有两个Thymeleaf做模板的页面login.html和index.html,可以直接在MVC配置中重写addViewControllers方法配置映射关系即可。</p>
-<p>@Configuration<br>public class WebMvcConfig implements WebMvcConfigurer{<br>  @override<br>  public void addViewControllers(ViewControllerRegistry registry)<br>  {<br>    registry.addViewController(“/login”).setViewName(“login”);<br>    registry.addViewController(“/index).setViewName(“index”);<br>  }<br>}</p>
-<p>配置完成后，就可以直接访问<a target="_blank" rel="noopener" href="http://localhost:8080/login%E7%AD%89%E5%9C%B0%E5%9D%80%E4%BA%86%E3%80%82">http://localhost:8080/login等地址了。</a><br>4.12 配置AOP<br>4.12.1 AOP简介</p>
-<p>AOP(Aspect-Oriented Programming,AOP)面向切面编程。需要读者首先考虑这样一个场景：公司有一个人力资源管理系统目前已经上线，但是系统运行不稳定，有时运行的慢，为了检测出到底是哪个环节出问题了，开发人员想要监控每一个方法的执行时间，再根据这些执行时间判断出问题所在。当问题解决后，再把这些监控移除掉。系统目前已经运行，如果手动修改系统中成千上万个方法，那么工作量未免太大，而且这些监控方法以后还有移除掉；如果能够在系统运行过程中动态添加代码，就能很好地解决这个需求。</p>
-<p>这种在系统运行时动态添加代码的方式称为面向切面编程(AOP)</p>
-<p>Spring框架对AOP提供了很好的支持。</p>
-<p>细节暂不研究<br>4.13 其他<br>4.13.1 自定义欢迎页</p>
-<p>Springboot项目在启动之后，首先会去静态资源路径下查找index.html作为首页文件。若查找不到，则会去查找动态的index文件作为首页文件。</p>
-<p>例如：</p>
-<pre><code>如果想使用静态的index.html页面作为项目首页，那么只需要在resources/static目录下创建index.html文件即可。
-若想使用动态页面作为项目首页，则需要再resources/templates目录下创建index.html(使用Thymeleaf模板)，或者index.ftl(使用FreeMarkder模板)，然后在Controller中返回逻辑视图名</code></pre>
-<p>@RequestMappin(“/index”)<br>public String hello()<br>{<br>  return “index”;<br>}</p>
-<p>4.13.2 自定义favicon</p>
-<p>favicon.ico是浏览器选项卡左上角的图标，可以放在静态资源路径下或者类路径下，静态资源下路径下的favicon.ico优先级高于类路径下的favicon.ico.</p>
-<p>可以使用在线转换网站<a target="_blank" rel="noopener" href="https://jinaconvert.com/cn/convert-to-ico.php%E5%B0%86%E4%B8%80%E5%BC%A0%E6%99%AE%E9%80%9A%E5%9B%BE%E7%89%87%E8%BD%AC%E4%B8%BA.ico%E5%9B%BE%E7%89%87%EF%BC%8C%E8%BD%AC%E6%8D%A2%E9%99%88%E5%AE%AB%E5%90%8E%EF%BC%8C%E5%B0%86%E6%96%87%E4%BB%B6%E9%87%8D%E5%91%BD%E5%90%8D%E4%B8%BAfavicon.ico%EF%BC%8C%E7%84%B6%E5%90%8E%E5%A4%8D%E5%88%B6%E5%88%B0resources/static%E7%9B%AE%E5%BD%95%E4%B8%8B%E3%80%82">https://jinaconvert.com/cn/convert-to-ico.php将一张普通图片转为.ico图片，转换陈宫后，将文件重命名为favicon.ico，然后复制到resources/static目录下。</a><br>4.13.3 除去某个自动配置</p>
-<p>暂不研究<br>5 SpringBoot整合持久层技术</p>
-<p>持久层是Java EE中访问数据库的核心操作，SpringBoot中对常见的持久层框架都提供了自动化配置，例如JdbcTemplate，JPA等，MyBatis的自动化配置则是MyBatis官方提供的。接下来分别向读者介绍SpringBoot整合这几种持久层技术。<br>5.1 整合JdbcTemplate</p>
-<p>JdbcTemplate是Spring提供的一套JDBC模板框架，利用AOP技术来解决直接使用JDBC时大量重复代码的问题。JdbcTemplate虽然没有MyBatis那么灵活，但是比直接使用JDBC要方便很多。<br>5.2 整合MyBatis</p>
-<p>MyBatis是一款优秀的持久层框架，原名叫做iBatis.</p>
-<p>MyBatis支持定制化SQL、存储过程以及高级映射。MyBatis几乎避免了所有的JDBC代码手动设置参数以及获取结果集。在传统的SSM框架整合中，使用MyBatis需要大量的XML配置，而在SpringBoot中，MyBatis官方提供了一套自动化配置方案，可以做到MyBatis开箱即用。<br>1.创建数据库和表</p>
-<p>create database ‘chapter05’ DEFAULT CHARACTER SET utf8;<br>USE ‘chapter05’<br>CREATE TABLE ‘book’<br>(<br>    ‘id’ int(11) NOT NULL AUTO_INCREMENT,<br>  ‘name’ varchar(128) DEFAULT NULL,<br>  ‘author’ varchar(64) DEFAULT NULL,<br>  ‘PRIMARY KEY(‘id’)<br>)ENGINE = InnoDB DEFAULT CHARSET = utf8;<br>  insert into ‘book’(‘id’,’name’,’author’) values(1,’三国演义’，’罗贯中’),(2,’水浒传’，’施耐庵’);</p>
-<p>创建chapter05数据库，在库中创建book表，同时添加两条测试语句。<br>2.创建项目</p>
-<p>创建Spring Boot项目，添加MyBatis依赖，数据局驱动依赖以及数据库连接池依赖，依赖如下：</p>
-<dependency>
- <groupId>org.springframework.boot</groupId>
- <artifactId>spring-boot-starter-web</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.mybatis.spring.boot</groupId>
-  <artifactId>mybatis-spring-boot-starter</artifactId>
-  <version>1.3.2</version>
-</dependency>
-<dependency>
-    <groupId>com.alibaba</groupId>
-  <artifactId>druid</artifactId>
-  <version>1.1.9</version>
-</dependency>
-
-
-<p>3.数据库配置</p>
-<p>在application.properties中配置数据库基本连接信息：</p>
-<p>spring.datasource.type = com.alibaba.druid.pool.DruidDataSource<br>spring.datasource.url = jdbc:mysql:///chapter05<br>spring.datasource.username = root<br>spring.datasource.password = 123</p>
-<p>4.创建实体类Book</p>
-<p>public class Book{<br>  private Integer id;<br>  private String name;<br>  private String author;<br>  //省略getter/setter<br>}</p>
-<p>5.创建数据库访问层(Access)</p>
-<p>BookMapper</p>
-<p>@Mapper<br>public interface BookMapper{<br>  int addBook(Book book);<br>  int deleteBookById(Integer Id);<br>  int updateBookById(Book book);<br>  Book getBookById();<br>  List<Book> getAllBooksI();<br>}</p>
-<p>5.3 整合SpringData JPA</p>
-<p>JPA(Java Persistence API)和Spring Data是两个范畴的概念。</p>
-<p>作为一名Java EE工程师。</p>
-<p>暂不研究<br>5.4 多数据源</p>
-<p>暂不研究<br>6 Spring Boot整合NoSQL</p>
-<p>暂不研究<br>7 构建RestFul服务<br>7.1 Rest简介</p>
-<p>REST(Representational State Transfer)是一种Web软件架构风格，它是一种风格，而不是标准,匹配或者兼容这种架构风格的网络服务称为Rest服务。</p>
-<p>在前后端分离项目中，一个设计良好的Web软件架构必然要满足REST风格。</p>
-<p>在SpringMVC框架中，开发者可以通过**@RestController**注解开发一个RestFul服务，不过SpringBoot对此提供了自动化配置方案，开发者只需要添加相关依赖就能快速构建一个RestFul服务。<br>7.2 JPA实现REST<br>7.3 MongoDB实现REST<br>8 开发者工具和单元测试<br>9 SpringBoot缓存</p>
-<p>Spring 3.1中开始对缓存提供支持，核心思路是对方法的支持，当开发者调用一个方法时，将方法的参数和返回值作为key/value缓存起来，当再次调用该方法时，如果缓存中有数据，就直接从缓冲中后去，否则再去执行该方法。但是Spring中并未提供缓存的实现，而是提供了一套缓存API，开发者可以自由选择缓存的实现，目前SpringBoot支持的缓存有以下几种：</p>
-<p>Jache<br>EhCache<br>Hazelcast<br>Infinispan<br>Couchbase..</p>
-<p>目前最常用的是Ehcache2.x和Redix。 由于Spring早已经将缓存领域统一，因此不论是用哪种缓存实现，不同的只是缓存配置，开发者使用的缓存注解是一致的(Spring缓存注解和各种缓存的实现的关系就像JDBC和各种数据库驱动的关系一样)<br>10 Springboot安全管理<br>11 Springboot整合WebSocket</p>
-<p>在HTTP协议中，所有的请求都是由客户端发起的，由服务端进行响应，服务器端无法向客户端推送消息，但是在一些需要即时通信的应用中，又不可避免地需要服务器端向客户端推送消息，传统的解决方案主要有以下几种。</p>
-<p>传统的暂不研究<br>11.2 WebSocket简介</p>
-<p>WebSocket是一种在单个TCP连接上进行全双工通信的协议，已经被W3C定位标准。使用WebSocket可以使得客户端和服务器之间的数据交换变得更加简单，它允许服务端主动向客户端推送数据。</p>
-<p>在WebSocket协议中，浏览器和服务器只需要完成一次握手，两者之间就可以直接创建持久性的连接，并进行双向数据传输。</p>
-<p>WebSocket有很多优势。</p>
-<p>WebSocket的使用场景非常广泛。</p>
-<p>例如：在线聊天网站，即时聊天，多人在线游戏，应用集群通信，系统性能实时监控。<br>11.3 SpringBoot整合WebSocket<br>11.4 小结</p>
-<p>本章主要想读者介绍了SpringBoot整合WebSocket，整体来说，经过SpringBoot自动化配置之后的WebSocket使用起来是非常方便的。通过@MessageMapping注解配置消息接口，通过@SendTo或者SimpMessagingTemplate进行消息转发，通过简单的几行配置，就能实现点对点、点对面的消息发送。在企业信息管理系统中，一般即时通信、通告发布等功能时都会用到WebSocket.<br>12 消息服务</p>
-<p>消息队列(Message Queue)是一种进程间或者线程间的异步通信方式，使用消息队列，消息生产者在产生消息后，会将消息保存在消息队列中，直到消息消费者来取走它，即消息的发送者和接收者不需要同时与消息队列交互。使用消息队列可以有效实现服务解耦，并提高系统的可靠性以及可扩展性。</p>
-<p>目前，开源的消息队列非常多，如Apache ActiveMQ，RabbitMQ等，这些产品就是常说的消息中间件。<br>13 企业开发<br>13.1 邮件发送</p>
-<p>邮件发送是一个非常常见的功能，注册时的身份认证、重要通知发送等都会用到邮件发送。</p>
-<p>Sun公司提供了JavaMail用来实现邮件发送，但是配置繁琐，</p>
-<p>Spring中提供了JavaMailSender用来简化邮件配置，</p>
-<p>SpringBoot则提供了MailSenderAutoConfiguration对邮件的发送做了进一步的简化。<br>13.2 定时任务</p>
-<p>定时任务是企业级开发中最常见的功能之一，如定时统计订单数，数据库备份，定时发送短信和邮件，定时统计博客访问等，简单的定时任务可以直接通过Spring中的@Scheduled注解来实现，复杂的定时任务则可以通过集成Quartz来实现，分别进行介绍。<br>13.4 Swagger 2<br>13.4.1 Swagger2简介</p>
-<p>在前后端分离开发中，为了减少与其他团队的沟通成本，一般构建一份RESTful API文档来描述所有的接口信息，但是这种做法弊端很大。不好用!</p>
-<p>Swagger 2是一个开源软件框架，可以帮助开发人员设计、构建、记录和使用REStful Web服务，它将代码和文档融为一体，可以完美地解决上面描述的问题，使得开发人员将大部分精力集中到业务中，而不是繁杂琐碎的文档中。</p>
-<p>Swagger2可以非常轻松地整合到SpringBoot项目中。<br>13.5 数据校验</p>
-<p>数据校验是开发过程中国一个常见的环节，一般来说，为了提高系统运行效率，都会在前端进行数据校验，但是这并不意味着不必在后端做数据校验了，因为用户还是可能在获取数据接口后手动传入非法数据，所以后端还是需要做数据校验。SpringBoot对此也提供了相关的自动化配置解决方案。<br>13.5.1 普通校验<br>13.5.2 分组校验<br>14 应用监控</p>
-<p>当一个SpringBoot项目运行时，开发者需要对SpringBoot项目进行实时监控，获取项目的运行情况，在项目出错时能够实现自动报警等。SpringBoot提供了actuator来帮助开发者获取应用程序的实时运行数据。开发者可以选择使用HTTP端点或者JMX来管理和监控应用程序，获取应用程序的运行数据，包括健康状况、应用信息、内存使用情况等。</p>
-<p>暂不研究<br>15 项目构建和部署</p>
-<p>SpringBoot项目可以内嵌Servlet容器，因此它的部署变得极为方便，可以直接打成可执行JAR包部署在有Java运行环境的服务器上，也可以像传统的JavaWeb应用程序那样打成WAR包运行。<br>15.1 JAR<br>15.1.1 项目打包</p>
-<p>使用Spring-boot-maven-plugin插件可以创建一个可执行的JAR应用程序，前提是应用程序的parent为spring-boot-starter-parent.配置方式如下。</p>
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
-    </plugins>
-</build>
-
-
-
-<p>15.1.2 项目运行<br>15.1.3 创建可依赖的JAR<br>15.1.4 文件排除</p>
-<p>要将Spring Boot项目打包成可执行JAR，一般需要一些配置文件，例如application.properties或者application.yml等，但是如果将SpringBoot项目打包成一个可以依赖JAR，这些配置文件很多时候又不需要，此时可以在打包时排除配置文件。<br>15.2 WAR</p>
-<p>在一些特殊情况下，需要开发者将Spring Boot项目打成WAR包，然后使用传统的方式部署。<br>16 微人事项目实战<br>16.1 项目简介</p>
-<p>人事管理系统是一种常见的企业后台管理系统。<br>16.2 技术架构</p>
-<p>本项目采用当下流行的前后端分离的方式开发，后端使用spring Boot开发，前端使用Vue + ElementUI来构建SPA。</p>
-<p>SPA是指Single-Page Application,即单页面应用。SPA应用通过动态重写当前页面来与用户交互，而非传统的从服务器重新加载整个新页面。这种方法避免了页面之间切换打断用户体验，使得应用程序更像一个桌面应用程序。</p>
-<p>在SPA中，所有的HTML，javascript，和css都通过单个页面的加载来检索，或者根据用户操作动态装载适当的资源并添加到页面。</p>
-<p>在SPA中，前端将通过Ajax与后端通信。</p>
-<p>对于开发者而言，SPA最直观的感受就是项目开发完成后，只有一个HTML页面，所有页面的跳转都通过路由导航。</p>
-<p>前后端分离的另一个好处是一个后端可以对应多个前端，由于后端只负责提供数据，前后端的交互都是通过Json数据完成的，因此后端开发成功之后，前端可以是PC端页面，也可以是Android，Ios以及微信小程序等。<br>16.2.2 Vue简介</p>
-<p>强烈建议初学者看官方文档学习vue</p>
-<p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide">https://cn.vuejs.org/v2/guide</a><br>16.2.2 Element简介</p>
-<p>Vue桌面端组件库非常多，比较流程的有Element等。</p>
-<p>本项目采用Element作为前端页面组件库。Element在Github上的star数已达29000，接近30000，出了问题容易找到解决方案。</p>
-<p>强烈建议通过官方文档学习：</p>
-<p><a target="_blank" rel="noopener" href="http://element-cn.eleme.io/#/zh-CN/component">http://element-cn.eleme.io/#/zh-CN/component</a><br>16.2.3 其他</p>
-<p>除了前端技术点外，后端用到的技术主要就是第1-15章提到的技术，这里即不详细展开了。<br>16.3 项目构建<br>16.3.1 前端项目构建</p>
-<p>Vue项目使用webpack来构建。首先确保本地已经安装了NodeJS，。。。<br>16.3.2 后端项目构建</p>
-<p>后端使用SpringBoot创建一个SpringBoot工程，添加Spring-boot-starter-web依赖即可。<br>16.4.2 前端实现<br>1.引入Element和Axios<br>2.开发Login页面<br>3.配置路由<br>4.配置请求转发</p>
-<p>最后，由于前端项目和后端项目在不同的端口下启动，前端的网络请求无法直接发送到后端，因此需要配置请求转发。<br>16.5.1 后端接口实现<br>16.5.2 前端实现</p>
-<p>后端返回了菜单数据，前端请求该接口获取菜单数据，这里的步骤很简单，主要分两步</p>
-<pre><code>将服务器返回的JSON动态添加到当前路由中
-将服务器返回的JSON数据保存到store中，然后各个Vue页面根据store中的数据来渲染菜单</code></pre>
-<p>16.6 员工资料模板</p>
-<p>完成登录模块和菜单加载模块之后，一个前后端分离的项目框架基本上就搭建成功了。接下来是业务的开发，主要是后端提供接口，前端提供页面并请求数据。<br>16.6.1 后端接口实现</p>
-<p>员工基本资料数据的展示，后端只需要提供一个分页查询+条件查询的接口即可。</p>
-<p>确认后端接口可以调通之后，接下来就可以开发前端页面了。<br>16.6.2 前端实现<br>16.7 配置邮件发送<br>16.8 员工资料导出</p>
-<p>将员工资料导出为EXcel是一个非常常见的需求，后端提供导出接口，前端下载导出数据即可。<br>16.9 员工资料导入</p>
-<p>既然有员工资料导出需求，当然也有导入需求。</p>
-<p>对前端而言，员工资料导入就是文件上传。</p>
-<p>对后端而言，则是获取上传的文件进行解析，并将解析出来的数据保存到数据库中。<br>16.9.1 后端接口实现</p>
-<p>后端主要是获取前端上传文件的流，然后进行解析。<br>16.9.2 前端实现</p>
-<p>前端主要是一个Excel表格的上传，这里直接采用Element的文件上传控件。<br>16.10 在线聊天</p>
-<p>在线聊天是一个为了方便HR进行快速沟通提高工作效率而开发的功能，考虑到一个公司中的HR并不多，并发量并不大，因此这里直接使用最基本的WebSocker来完成该功能。<br>16.11 前端项目打包</p>
-<p>当前端项目开发完成之后，执行如下命令对项目进行打包</p>
-<p>npm run build</p>
-<p>打包完成之后，在当前工作目录下生成一个dist文件夹</p>
-<p>OK!</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/19/springboot%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -627,10 +287,16 @@ StandardServletMultipartResolver
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-19 09:29:09 / 修改时间：09:40:02" itemprop="dateCreated datePublished" datetime="2021-01-19T09:29:09+08:00">2021-01-19</time>
+              <time title="创建时间：2021-01-19 09:29:09" itemprop="dateCreated datePublished" datetime="2021-01-19T09:29:09+08:00">2021-01-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-09 11:34:31" itemprop="dateModified" datetime="2022-11-09T11:34:31+08:00">2022-11-09</time>
+              </span>
 
           
 
@@ -643,10 +309,12 @@ StandardServletMultipartResolver
     <div class="post-body" itemprop="articleBody">
 
       
-          <pre><code>    概述
+          <a id="more"></a>
+
+
+<pre><code>    概述
         什么是 Spring Boot？
         Spring Boot 有哪些优点？
-        &lt;!--more--&gt;
         Spring Boot 的核心注解是哪个？它主要由哪几个注解组成的？
     配置
         什么是 JavaConfig？

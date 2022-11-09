@@ -451,10 +451,12 @@ echo: 要过年了，www.waylau.com 祝你 猴年大吉，身体健康哦！</co
   <entry>
     <title>springboot</title>
     <url>/2021/01/19/springboot/</url>
-    <content><![CDATA[<pre><code>    概述
+    <content><![CDATA[<a id="more"></a>
+
+
+<pre><code>    概述
         什么是 Spring Boot？
         Spring Boot 有哪些优点？
-        &lt;!--more--&gt;
         Spring Boot 的核心注解是哪个？它主要由哪几个注解组成的？
     配置
         什么是 JavaConfig？
@@ -530,6 +532,7 @@ echo: 要过年了，www.waylau.com 祝你 猴年大吉，身体健康哦！</co
     <title>xuehaolin</title>
     <url>/2020/09/28/xuehaolin/</url>
     <content><![CDATA[<p>这是我的第一个用GitHub+hexo搭建的博客网站，我希望用这个博客可以记录我的日常学习生活，我沿途遇到的风景以及我看过的书，或者是我对某一件事的看法，我希望多年以后这里可以是我的一路走来的驻足地。</p>
+<p>时隔三年，恍如隔世，用心记录，水到渠成。</p>
 ]]></content>
   </entry>
   <entry>
@@ -1644,6 +1647,8 @@ public void testHello(){
     <title>springboot简单介绍</title>
     <url>/2021/01/19/springboot%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<p>文章目录</p>
+<a id="more"></a>
+
 <pre><code>1 SpringBoot入门
 2 SpringBoot基础配置
     2.2 @Spring BootApplication
@@ -1771,11 +1776,9 @@ image-20190418145105790
 虽然项目的启动类也包含@Configuration注解，但是开发者可以创建一个新的类专门用来配置Bean,这样便于配置的管理。这个类只需要加上@Configuration注解即可。代码如下：
 
 @Configuration
-public class MyConfig&#123;
-
-
-
-项目启动类中的@ComponentScan注解，除了扫描@Service，@Repository,@Component,@Controller和@RestController等之外，也会扫描@Configuration注解的类。</code></pre>
+public class MyConfig&#123;</code></pre>
+<p>​    </p>
+<pre><code>项目启动类中的@ComponentScan注解，除了扫描@Service，@Repository,@Component,@Controller和@RestController等之外，也会扫描@Configuration注解的类。</code></pre>
 <p>2.3 定制banner</p>
 <p>Spring Boot项目在启动时会打印一个banner</p>
 <p>image-20190418150153252</p>

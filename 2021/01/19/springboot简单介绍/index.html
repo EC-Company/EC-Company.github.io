@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"xuehaolin.wang","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="文章目录 1 SpringBoot入门 2 SpringBoot基础配置     2.2 @Spring BootApplication     2.3 定制banner     2.4 Web容器配置         2.4.1 Tomcat配置     2.5 Properties配置     2.7 YAML配置         2.7.2 复杂配置     2.8 Profile 3 Sp">
+  <meta name="description" content="文章目录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot简单介绍">
 <meta property="og:url" content="https://xuehaolin.wang/2021/01/19/springboot%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="Xuehaolin&#39;s blog">
-<meta property="og:description" content="文章目录 1 SpringBoot入门 2 SpringBoot基础配置     2.2 @Spring BootApplication     2.3 定制banner     2.4 Web容器配置         2.4.1 Tomcat配置     2.5 Properties配置     2.7 YAML配置         2.7.2 复杂配置     2.8 Profile 3 Sp">
+<meta property="og:description" content="文章目录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-19T01:31:33.000Z">
-<meta property="article:modified_time" content="2021-01-19T01:39:42.114Z">
+<meta property="article:modified_time" content="2022-11-09T03:34:20.438Z">
 <meta property="article:author" content="薛浩琳">
 <meta property="article:tag" content="记录生活">
 <meta name="twitter:card" content="summary">
@@ -217,10 +217,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-19 09:31:33 / 修改时间：09:39:42" itemprop="dateCreated datePublished" datetime="2021-01-19T09:31:33+08:00">2021-01-19</time>
+              <time title="创建时间：2021-01-19 09:31:33" itemprop="dateCreated datePublished" datetime="2021-01-19T09:31:33+08:00">2021-01-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-09 11:34:20" itemprop="dateModified" datetime="2022-11-09T11:34:20+08:00">2022-11-09</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -241,6 +247,8 @@
 
       
         <p>文章目录</p>
+<a id="more"></a>
+
 <pre><code>1 SpringBoot入门
 2 SpringBoot基础配置
     2.2 @Spring BootApplication
@@ -368,11 +376,9 @@ image-20190418145105790
 虽然项目的启动类也包含@Configuration注解，但是开发者可以创建一个新的类专门用来配置Bean,这样便于配置的管理。这个类只需要加上@Configuration注解即可。代码如下：
 
 @Configuration
-public class MyConfig&#123;
-
-
-
-项目启动类中的@ComponentScan注解，除了扫描@Service，@Repository,@Component,@Controller和@RestController等之外，也会扫描@Configuration注解的类。</code></pre>
+public class MyConfig&#123;</code></pre>
+<p>​    </p>
+<pre><code>项目启动类中的@ComponentScan注解，除了扫描@Service，@Repository,@Component,@Controller和@RestController等之外，也会扫描@Configuration注解的类。</code></pre>
 <p>2.3 定制banner</p>
 <p>Spring Boot项目在启动时会打印一个banner</p>
 <p>image-20190418150153252</p>
